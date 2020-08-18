@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.koreait.pjt.vo.UserVO;
 
 public class UserDAO {
@@ -18,12 +17,11 @@ public class UserDAO {
 		
 		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
 			@Override
-			public int update(PreparedStatement ps) throws SQLException {				
+			public void update(PreparedStatement ps) throws SQLException {				
 				ps.setNString(1, param.getUser_id());
 				ps.setNString(2, param.getUser_pw());
 				ps.setNString(3, param.getNm());
-				ps.setNString(4, param.getEmail());
-				return ps.executeUpdate();
+				ps.setNString(4, param.getEmail());				
 			}
 		});
 	}
@@ -36,22 +34,18 @@ public class UserDAO {
 				+ " WHERE user_id = ? ";
 				
 		return JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
-
 			@Override
 			public ResultSet prepared(PreparedStatement ps) throws SQLException {
 				ps.setNString(1, param.getUser_id());				
 				return ps.executeQuery();
 			}
-
 			@Override
-			public int excuteQuery(ResultSet rs) throws SQLException {
+			public int executeQuery(ResultSet rs) throws SQLException {
 				if(rs.next()) {
-					String dbPw = rs.getNString("user_pw");
-					
+					String dbPw = rs.getNString("user_pw");					
 					if(dbPw.equals(param.getUser_pw())) { //로그인 성공
 						int i_user = rs.getInt("i_user");
-						String nm = rs.getNString("nm");
-						
+						String nm = rs.getNString("nm");						
 						param.setUser_pw(null);
 						param.setI_user(i_user);
 						param.setNm(nm);						

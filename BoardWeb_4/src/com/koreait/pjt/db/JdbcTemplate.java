@@ -16,7 +16,7 @@ public class JdbcTemplate {
 			con = DbCon.getCon();
 			ps = con.prepareStatement(sql);						
 			rs = jdbc.prepared(ps);
-			result = jdbc.excuteQuery(rs);
+			result = jdbc.executeQuery(rs);
 		} catch (Exception e) {		
 			e.printStackTrace();
 		} finally {
@@ -33,8 +33,11 @@ public class JdbcTemplate {
 		
 		try {
 			con = DbCon.getCon();
-			ps = con.prepareStatement(sql);			
-			result = jdbc.update(ps);
+			ps = con.prepareStatement(sql);
+			
+			jdbc.update(ps); //바뀌는 부분
+			
+			result = ps.executeUpdate();
 		} catch (Exception e) {		
 			e.printStackTrace();
 		} finally {

@@ -6,5 +6,5 @@ import java.sql.SQLException;
 
 public interface JdbcSelectInterface {
 	ResultSet prepared(PreparedStatement ps) throws SQLException;
-	int excuteQuery(ResultSet rs) throws SQLException;
+	int executeQuery(ResultSet rs) throws SQLException;
 }
