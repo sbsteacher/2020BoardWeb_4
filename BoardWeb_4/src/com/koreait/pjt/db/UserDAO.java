@@ -28,8 +28,7 @@ public class UserDAO {
 	}
 	
 	//0:에러 발생, 1:로그인 성공, 2:비밀번호 틀림, 3:아이디 없음
-	public static int selUser(UserVO param) {
-		
+	public static int selUser(UserVO param) {		
 		String sql = " SELECT i_user, user_pw, nm "
 				+ " FROM t_user "
 				+ " WHERE user_id = ? ";
