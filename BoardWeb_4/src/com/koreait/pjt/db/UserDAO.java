@@ -1,5 +1,6 @@
 package com.koreait.pjt.db;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,13 +9,13 @@ import java.util.List;
 import com.koreait.pjt.vo.UserVO;
 
 public class UserDAO {
-	
+		
 	public static int insUser(UserVO param) {		
 		String sql = " INSERT INTO t_user "
 				+ " (i_user, user_id, user_pw, nm, email) "
 				+ " VALUES "
 				+ " (seq_user.nextval, ?, ?, ?, ?) ";
-		
+				
 		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
 			@Override
 			public void update(PreparedStatement ps) throws SQLException {				
@@ -35,10 +36,10 @@ public class UserDAO {
 				
 		return JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
 			@Override
-			public ResultSet prepared(PreparedStatement ps) throws SQLException {
-				ps.setNString(1, param.getUser_id());				
-				return ps.executeQuery();
+			public void prepared(PreparedStatement ps) throws SQLException {
+				ps.setNString(1, param.getUser_id());
 			}
+			
 			@Override
 			public int executeQuery(ResultSet rs) throws SQLException {
 				if(rs.next()) {
@@ -60,4 +61,3 @@ public class UserDAO {
 		});
 	}
 }
-
