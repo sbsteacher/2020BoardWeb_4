@@ -9,6 +9,23 @@ import java.util.List;
 import com.koreait.pjt.vo.BoardVO;
 
 public class BoardDAO {
+	
+	public static int insBoard(BoardVO param) {
+		String sql = " INSERT INTO t_board4"
+				+ " (i_board, title, ctnt, i_user)"
+				+ " VALUES"
+				+ " (seq_board4.nextval, ?, ?, ?) ";
+		
+		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
+			@Override
+			public void update(PreparedStatement ps) throws SQLException {
+				ps.setNString(1, param.getTitle());
+				ps.setNString(2, param.getCtnt());
+				ps.setInt(3, param.getI_user());
+			}
+		});
+	}
+	
 	public static List<BoardVO> selBoardList() {
 		List<BoardVO> list = new ArrayList();
 		
@@ -23,7 +40,7 @@ public class BoardDAO {
 			@Override
 			public int executeQuery(ResultSet rs) throws SQLException {
 				while(rs.next()) {
-					int i_board = rs.getInt("i_board");
+					int i_board = rs.getInt("i_board");	
 					String title = rs.getNString("title");
 					int hits = rs.getInt("hits");
 					int i_user = rs.getInt("i_user");

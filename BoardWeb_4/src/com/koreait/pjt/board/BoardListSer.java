@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import com.koreait.pjt.Const;
 import com.koreait.pjt.ViewResolver;
+import com.koreait.pjt.db.BoardDAO;
 
 @WebServlet("/board/list")
 public class BoardListSer extends HttpServlet {
@@ -21,6 +22,8 @@ public class BoardListSer extends HttpServlet {
 			response.sendRedirect("/login");
 			return;
 		}
+		
+		request.setAttribute("list", BoardDAO.selBoardList());
 		
 		ViewResolver.forward("board/list", request, response);
 	}
