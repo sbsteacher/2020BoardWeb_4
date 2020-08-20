@@ -64,17 +64,17 @@ public class BoardDAO {
 	}
 	
 	public static BoardDomain selBoard(final int i_board) {
-		BoardDomain result = new BoardDomain();
+		final BoardDomain result = new BoardDomain();
 		result.setI_board(i_board);
 		
-		String sql = " SELECT B.nm "
+		String sql = " SELECT B.nm, A.i_user "
 				+ " , A.title, A.ctnt, A.hits, TO_CHAR(A.r_dt, 'YYYY/MM/DD HH24:MI') as r_dt "
 				+ " FROM t_board4 A "
 				+ " INNER JOIN t_user B "
 				+ " ON A.i_user = B.i_user "
 				+ " WHERE A.i_board = ? ";
 		
-		JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
+		int resultInt = JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
 
 			@Override
 			public void prepared(PreparedStatement ps) throws SQLException {
@@ -83,14 +83,15 @@ public class BoardDAO {
 
 			@Override
 			public int executeQuery(ResultSet rs) throws SQLException {
-				if(rs.next()) {
+				if(rs.next()) {					
+					result.setI_user(rs.getInt("i_user"));
 					result.setNm(rs.getNString("nm"));
 					result.setTitle(rs.getNString("title"));
 					result.setCtnt(rs.getNString("ctnt"));
 					result.setHits(rs.getInt("hits"));
 					result.setR_dt(rs.getNString("r_dt"));
 				}
-				return 0;
+				return 1;
 			}
 		});
 		
