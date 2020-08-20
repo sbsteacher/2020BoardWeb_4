@@ -17,14 +17,7 @@ public class BoardListSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession hs = request.getSession();
-		if(null == hs.getAttribute(Const.LOGIN_USER)) {
-			response.sendRedirect("/login");
-			return;
-		}
-		
 		request.setAttribute("list", BoardDAO.selBoardList());
-		
-		ViewResolver.forward("board/list", request, response);
+		ViewResolver.forwardLoginChk("board/list", request, response);
 	}
 }

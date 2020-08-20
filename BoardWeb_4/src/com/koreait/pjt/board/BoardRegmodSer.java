@@ -20,14 +20,8 @@ public class BoardRegmodSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	//화면 띄우는 용도(등록창/수정창)
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession hs = request.getSession();
-		if(null == hs.getAttribute(Const.LOGIN_USER)) {
-			response.sendRedirect("/login");
-			return;
-		}
-		
-		ViewResolver.forward("board/regmod", request, response);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		ViewResolver.forwardLoginChk("board/regmod", request, response);
 	}
 
 	//처리 용도(DB에 등록/수정)실시

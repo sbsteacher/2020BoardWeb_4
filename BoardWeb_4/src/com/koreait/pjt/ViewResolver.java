@@ -14,4 +14,13 @@ public class ViewResolver {
 		request.getRequestDispatcher(jsp).forward(request, response);
 	}
 	
+	public static void forwardLoginChk(String fileNm, HttpServletRequest request
+			, HttpServletResponse response) throws ServletException, IOException {		
+		if(MyUtils.isLogout(request)) {
+			response.sendRedirect("/login");
+			return;
+		}		
+		ViewResolver.forward(fileNm, request, response);
+	}
+	
 }
