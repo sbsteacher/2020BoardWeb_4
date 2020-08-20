@@ -97,4 +97,33 @@ public class BoardDAO {
 		
 		return result;
 	}
+	
+	public static int delBoard(final BoardVO param) {
+		String sql = " DELETE FROM t_board4 WHERE i_board = ? AND i_user = ? ";
+		
+		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
+			@Override
+			public void update(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, param.getI_board());
+				ps.setInt(2, param.getI_user());
+			}
+		});
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
