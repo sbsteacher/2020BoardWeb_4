@@ -6,6 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>리스트</title>
+<style>
+	.articleRow:hover {
+		background-color: #dfe3ee;
+		cursor: pointer;
+	}
+</style>
 </head>
 <body>
 	<div>${loginUser.nm }님 환영합니다!</div>
@@ -23,7 +29,7 @@
 				<th>등록일시</th>
 			</tr>
 			<c:forEach items="${list}" var="item">
-			<tr>
+			<tr class="articleRow" onclick="moveToDetail(${item.i_board})">
 				<td>${item.i_board }</td>
 				<td>${item.title }</td>
 				<td>${item.hits }</td>
@@ -33,6 +39,10 @@
 			</c:forEach>
 		</table>
 	</div>
-	
+	<script>
+		function moveToDetail(i_board) {
+			location.href = '/board/detail?i_board=' + i_board
+		}
+	</script>
 </body>
 </html>

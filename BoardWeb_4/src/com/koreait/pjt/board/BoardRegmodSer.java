@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.koreait.pjt.Const;
+import com.koreait.pjt.MyUtils;
 import com.koreait.pjt.ViewResolver;
 import com.koreait.pjt.db.BoardDAO;
 import com.koreait.pjt.vo.BoardVO;
@@ -21,7 +22,12 @@ public class BoardRegmodSer extends HttpServlet {
        
 	//화면 띄우는 용도(등록창/수정창)
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		ViewResolver.forwardLoginChk("board/regmod", request, response);
+		if(MyUtils.isLogout(request)) {
+			response.sendRedirect("/login");
+			return;
+		}
+		
+		ViewResolver.forward("board/regmod", request, response);
 	}
 
 	//처리 용도(DB에 등록/수정)실시

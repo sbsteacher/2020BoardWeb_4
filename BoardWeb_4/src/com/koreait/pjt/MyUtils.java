@@ -9,6 +9,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class MyUtils {
+	public static int parseStrToInt(String str) {
+		return parseStrToInt(str, 0);
+	}
+	
+	public static int parseStrToInt(String str, int defNo) {
+		try {
+			return Integer.parseInt(str);
+		} catch(Exception e) {
+			return defNo;
+		}
+	}
+	
 	//return true:로그인이 안됨!, false: 로그인 된 상태
 	public static boolean isLogout(HttpServletRequest request) throws IOException {		
 		HttpSession hs = request.getSession();
