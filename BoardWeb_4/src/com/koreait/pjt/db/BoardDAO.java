@@ -99,7 +99,7 @@ public class BoardDAO {
 	}
 	
 	public static int delBoard(final BoardVO param) {
-		String sql = " DELETE FROM t_board4 WHERE i_board = ? AND i_user = ? ";
+		String sql = " DELETE FROM t_board4 WHERE i_board = ?  ";
 		
 		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
 			@Override

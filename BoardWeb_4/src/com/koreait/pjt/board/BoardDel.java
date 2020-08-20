@@ -26,6 +26,7 @@ public class BoardDel extends HttpServlet {
     		response.sendRedirect("/login");
     		return;
     	}
+   
     	BoardVO param = new BoardVO();
     	param.setI_board(i_board);
     	param.setI_user(loginUser.getI_user());
