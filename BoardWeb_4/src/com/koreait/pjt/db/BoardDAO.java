@@ -98,8 +98,28 @@ public class BoardDAO {
 		return result;
 	}
 	
+	public static int updBoard(final BoardVO param) {
+		String sql = " UPDATE t_board4 "
+				+ " SET m_dt = sysdate "
+				+ " , title = ? "
+				+ " , ctnt = ? "
+				+ " WHERE i_board = ? "
+				+ " AND i_user = ? ";
+		
+		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
+			@Override
+			public void update(PreparedStatement ps) throws SQLException {
+				ps.setNString(1, param.getTitle());
+				ps.setNString(2, param.getCtnt());
+				ps.setInt(3, param.getI_board());
+				ps.setInt(4, param.getI_user());
+			}
+		});
+	
+	}
+	
 	public static int delBoard(final BoardVO param) {
-		String sql = " DELETE FROM t_board4 WHERE i_board = ?  ";
+		String sql = " DELETE FROM t_board4 WHERE i_board = ?  AND i_user = ? ";
 		
 		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
 			@Override

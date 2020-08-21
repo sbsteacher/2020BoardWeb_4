@@ -27,11 +27,18 @@ public class BoardRegmodSer extends HttpServlet {
 			return;
 		}
 		
+		String strI_board = request.getParameter("i_board");
+		if(strI_board != null) { //수정
+			int i_board = MyUtils.parseStrToInt(strI_board);
+			request.setAttribute("data", BoardDAO.selBoard(i_board));
+		}
+		
 		ViewResolver.forward("board/regmod", request, response);
 	}
 
 	//처리 용도(DB에 등록/수정)실시
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String strI_board = request.getParameter("i_board");
 		String title = request.getParameter("title");
 		String ctnt = request.getParameter("ctnt");
 		
@@ -45,10 +52,17 @@ public class BoardRegmodSer extends HttpServlet {
 		param.setTitle(title);
 		param.setCtnt(ctnt);
 		param.setI_user(loginUser.getI_user());
+		int result = 0;
 		
-		int result = BoardDAO.insBoard(param);
+		if("".equals(strI_board)) { //등록
+			result = BoardDAO.insBoard(param);
+			response.sendRedirect("/board/list");
+		} else { //수정
+			int i_board = MyUtils.parseStrToInt(strI_board);
+			param.setI_board(i_board);
+			result = BoardDAO.updBoard(param);
+			response.sendRedirect("/board/detail?i_board=" + strI_board);
+		}
 		
-		response.sendRedirect("/board/list");
 	}
-
 }

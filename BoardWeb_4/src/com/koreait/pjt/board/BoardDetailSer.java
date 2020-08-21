@@ -23,8 +23,8 @@ public class BoardDetailSer extends HttpServlet {
 		
 		String strI_board = request.getParameter("i_board");
 		int i_board = MyUtils.parseStrToInt(strI_board);
-		
 		request.setAttribute("data", BoardDAO.selBoard(i_board));
+		
 		ViewResolver.forward("board/detail", request, response);
 	}
 

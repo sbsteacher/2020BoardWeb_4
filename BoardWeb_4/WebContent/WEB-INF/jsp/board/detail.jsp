@@ -11,7 +11,7 @@
 	<div>
 		<a href="/board/list">리스트</a>		
 		<c:if test="${loginUser.i_user == data.i_user }">
-			<a href="/board/regmod?i_board=${data.i_board}">수정</a>
+			<a href="regmod?i_board=${data.i_board}">수정</a>
 			<form id="delFrm" action="/board/del" method="post">
 				<input type="hidden" name="i_board" value="${data.i_board}">				
 				<a href="#" onclick="submitDel()">삭제</a>
