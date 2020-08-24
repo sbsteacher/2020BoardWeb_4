@@ -1,43 +1,103 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>    
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>     
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>리스트</title>
 <style>
-	.articleRow:hover {
-		background-color: #dfe3ee;
-		cursor: pointer;
+	* {
+		font-family: 'Noto Sans KR', sans-serif;
+	}
+	*:focus { 
+		outline:none; 
+	}
+	body{
+		background-color: #faf9f7;
+	}
+	.container {
+		width: 1200px;
+		margin: 0 auto; 
+		padding: 20px;
+	}
+	#usr-color {
+		color: #ef9173;
+		font-weight: bold;
+	}
+	table {
+		width: 800px;
+		margin: 70px auto; 
+		border: 0.5px solid #58585a;
+		border-collapse: collapse;
+	}
+	tr, td{
+		text-align : center;
+		padding: 7px;
+	}
+	th {
+		text-align : center;
+		padding: 7px;
+		border-bottom: 0.5px solid #58585a;
+	}
+	.itemRow:hover {
+		background: #f5d1ca;
+		cursor : pointer;
+	}
+	button a {
+		color: #58585a;
+		text-decoration: none;
+	}
+	#logout {
+		background-color: #f5d1ca;
+		text-align: center;
+		padding: 5px;
+		color: #58585a;
+		border: none;
+		border-radius: 10px;
+		font-weight: bold;
+	}
+	#write {
+		width: 100px;
+		background-color: #f5d1ca;
+		text-align: center;
+		border: none;
+		padding: 8px;
+		color: #58585a;
+		border-radius: 10px;
+		margin-left: 200px;
+		font-weight : bold;
 	}
 </style>
 </head>
 <body>
-	<div>${loginUser.nm }님 환영합니다! <a href="/user/logout">로그아웃</a></div>
-	<div>
-		<a href="regmod">글쓰기</a>
-	</div>
-	<h1>리스트</h1>
-	<div>
+	
+	<div class="container">
+		<div class="usr-name">
+			<span id="usr-color">${loginUser.nm}</span>님 환영합니다
+			<button id="logout"><a href="/logout">로그아웃</a></button>
+		</div>
 		<table>
 			<tr>
-				<th>번호</th>
+				<th>No</th>
 				<th>제목</th>
 				<th>조회수</th>
 				<th>작성자</th>
-				<th>등록일시</th>
+				<th>작성일</th>
 			</tr>
 			<c:forEach items="${list}" var="item">
-			<tr class="articleRow" onclick="moveToDetail(${item.i_board})">
-				<td>${item.i_board }</td>
-				<td>${item.title }</td>
-				<td>${item.hits }</td>
-				<td>${item.i_user }</td>
-				<td>${item.r_dt }</td>
-			</tr>
+				<tr class="itemRow" onclick="moveToDetail(${item.i_board})">
+					<td>${item.i_board}</td>
+					<td>${item.title}</td>
+					<td>${item.hits}</td>
+					<td>${item.nm}</td>
+					<td>${item.r_dt}</td>
+				</tr>
 			</c:forEach>
 		</table>
+		<div>
+			<a href="regmod"><button id="write">글작성</button></a>
+		</div>
 	</div>
 	<script>
 		function moveToDetail(i_board) {

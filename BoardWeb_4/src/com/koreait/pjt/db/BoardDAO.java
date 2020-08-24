@@ -27,11 +27,12 @@ public class BoardDAO {
 		});
 	}
 	
-	public static List<BoardVO> selBoardList() {
-		List<BoardVO> list = new ArrayList();
+	public static List<BoardDomain> selBoardList() {
+		List<BoardDomain> list = new ArrayList();
 		
-		String sql = " SELECT i_board, title, hits, i_user, r_dt "
-				+ " FROM t_board4 ORDER BY i_board DESC ";
+		String sql = " SELECT A.i_board, A.title, A.hits, A.i_user, A.r_dt, B.nm "
+				+ " FROM t_board4 A INNER JOIN t_user B ON A.i_user = B.i_user "
+				+ " ORDER BY i_board DESC ";
 		
 		int result = JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
 
@@ -46,13 +47,15 @@ public class BoardDAO {
 					int hits = rs.getInt("hits");
 					int i_user = rs.getInt("i_user");
 					String r_dt = rs.getNString("r_dt");
+					String nm = rs.getNString("nm");
 					
-					BoardVO vo = new BoardVO();
+					BoardDomain vo = new BoardDomain();
 					vo.setI_board(i_board);
 					vo.setTitle(title);
 					vo.setHits(hits);
 					vo.setI_user(i_user);
 					vo.setR_dt(r_dt);
+					vo.setNm(nm);
 					
 					list.add(vo);
 				}

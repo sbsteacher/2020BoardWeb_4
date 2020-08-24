@@ -13,6 +13,7 @@ import com.koreait.pjt.Const;
 import com.koreait.pjt.MyUtils;
 import com.koreait.pjt.ViewResolver;
 import com.koreait.pjt.db.UserDAO;
+import com.koreait.pjt.vo.UserLoginHistoryVO;
 import com.koreait.pjt.vo.UserVO;
 
 @WebServlet("/login")
@@ -20,6 +21,12 @@ public class LoginSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		UserVO loginUser = MyUtils.getLoginUser(request);
+		if(loginUser != null) {
+			response.sendRedirect("/board/list");
+			return;
+		}
+		
 		ViewResolver.forward("user/login", request, response);
 	}
 
@@ -52,11 +59,53 @@ public class LoginSer extends HttpServlet {
 			return;
 		}
 		
+		String agent = request.getHeader("User-Agent");
+		System.out.println("agent: " + agent);
+		String os = getOs(agent);
+		String browser = getBrowser(agent);
+		String ip_addr = request.getRemoteAddr();
+		
+		UserLoginHistoryVO ulhVO = new UserLoginHistoryVO();
+		ulhVO.setI_user(param.getI_user());
+		ulhVO.setOs(os);
+		ulhVO.setIp_addr(ip_addr);
+		ulhVO.setBrowser(browser);
+		
+		
+		
 		HttpSession hs = request.getSession();
 		hs.setAttribute(Const.LOGIN_USER, param);
 		
 		System.out.println("로그인 성공 ");
 		response.sendRedirect("/board/list");
+	}
+	private String getBrowser(String agent) {
+		if(agent.contains("msie")) {
+			return "ie";
+		} else if(agent.contains("safari")) {
+			return "safari";
+		} else if(agent.contains("chrome")) {
+			return "chrome";
+		}
+		
+		return "";
+	}
+	
+	private String getOs(String agent) {
+
+		if(agent.contains("mac")) {
+			return "mac";
+		} else if(agent.contains("windows")) {
+			return "win";
+		} else if(agent.contains("x11")) {
+			return "linux";
+		} else if(agent.contains("android")) {
+			return "android";
+		} else if(agent.contains("iphone")) {
+			return "iOS";
+		}
+		
+		return "";
 	}
 
 }
