@@ -98,7 +98,7 @@
         #delFrm {
             display: inline-block;
         }
-        
+        .pointerCursor { 	cursor: pointer; }
     </style>
 </head>
 
@@ -116,7 +116,7 @@
                 <td id="date-1"> ${data.r_dt } <small>${data == null ? '' : '수정' }</small> </td>
                 <th id="hits">조회수</th>
                 <td id="hits-1">${data.hits }</td>                
-                <td>
+                <td class="pointerCursor" onclick="toggleLike(${data.yn_like})">
                 	<c:if test="${data.yn_like == 0 }">
 						<span class="material-icons">favorite_border</span>                	
                 	</c:if>
@@ -144,6 +144,10 @@
     </div>
 
     <script>
+    	function toggleLike(yn_like) {
+    		location.href="/board/toggleLike?i_board=${data.i_board}&yn_like=" + yn_like
+    	}
+    
         function submitDel() {
             delFrm.submit()
         }

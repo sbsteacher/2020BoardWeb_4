@@ -11,6 +11,23 @@ import com.koreait.pjt.vo.BoardVO;
 
 public class BoardDAO {
 	
+	public static int insBoardLike(BoardVO param) {
+		String sql = " INSERT INTO t_board4_like "
+				+ " (i_user, i_board) "
+				+ " VALUES "
+				+ " (?, ?) ";
+		
+		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
+
+			@Override
+			public void update(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, param.getI_user());
+				ps.setInt(2, param.getI_board());
+			}
+			
+		});
+	}
+	
 	public static int insBoard(BoardVO param) {
 		String sql = " INSERT INTO t_board4"
 				+ " (i_board, title, ctnt, i_user)"
@@ -134,6 +151,20 @@ public class BoardDAO {
 			@Override
 			public void update(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, i_board);
+			}
+		});
+	}
+	
+	public static int delBoardLike(BoardVO param) {
+		String sql = " DELETE FROM t_board4_like "
+				+ " WHERE i_user = ? AND i_board = ? ";
+		
+		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
+
+			@Override
+			public void update(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, param.getI_user());
+				ps.setInt(2, param.getI_board());
 			}
 		});
 	}
