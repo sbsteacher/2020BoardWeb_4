@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>상세페이지</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         * {
             font-family: 'Noto Sans KR', sans-serif;
@@ -106,7 +107,7 @@
         <table>
             <tr id="title">
                 <th>제목</th>
-                <th colspan="5">${data.title}</th>
+                <th colspan="6">${data.title}</th>
             </tr>
             <tr class="boardInfo">
                 <th id="nm">작성자</th>
@@ -114,7 +115,15 @@
                 <th id="date">작성일시</th>
                 <td id="date-1"> ${data.r_dt } <small>${data == null ? '' : '수정' }</small> </td>
                 <th id="hits">조회수</th>
-                <td id="hits-1">${data.hits }</td>
+                <td id="hits-1">${data.hits }</td>                
+                <td>
+                	<c:if test="${data.yn_like == 0 }">
+						<span class="material-icons">favorite_border</span>                	
+                	</c:if>
+                	<c:if test="${data.yn_like == 1}">
+                		<span class="material-icons" style="color: red;">favorite</span>
+                	</c:if>
+                </td>
             </tr>
         </table>
         <div class="ctnt">

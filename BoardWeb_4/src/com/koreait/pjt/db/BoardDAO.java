@@ -66,33 +66,39 @@ public class BoardDAO {
 		return list;
 	}
 	
-	public static BoardDomain selBoard(final int i_board) {
+	public static BoardDomain selBoard(final BoardVO param) {
 		final BoardDomain result = new BoardDomain();
-		result.setI_board(i_board);
+		result.setI_board(param.getI_board());
 		
 		String sql = " SELECT B.nm, A.i_user "
-				+ " , A.title, A.ctnt, A.hits, TO_CHAR(A.r_dt, 'YYYY/MM/DD HH24:MI') as r_dt "
+				+ " , A.title, A.ctnt, A.hits, TO_CHAR(A.r_dt, 'YYYY/MM/DD HH24:MI') as r_dt"
+				+ " , DECODE(C.i_user, null, 0, 1) as yn_like "
 				+ " FROM t_board4 A "
 				+ " INNER JOIN t_user B "
 				+ " ON A.i_user = B.i_user "
+				+ " LEFT JOIN t_board4_like C "
+				+ " ON A.i_board = C.i_board "
+				+ " AND C.i_user = ? "
 				+ " WHERE A.i_board = ? ";
 		
 		int resultInt = JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
 
 			@Override
 			public void prepared(PreparedStatement ps) throws SQLException {
-				ps.setInt(1, i_board);
+				ps.setInt(1, param.getI_user());
+				ps.setInt(2, param.getI_board());
 			}
 
 			@Override
 			public int executeQuery(ResultSet rs) throws SQLException {
-				if(rs.next()) {					
-					result.setI_user(rs.getInt("i_user"));
+				if(rs.next()) {
+					result.setI_user(rs.getInt("i_user")); //작성자 i_user
 					result.setNm(rs.getNString("nm"));
 					result.setTitle(rs.getNString("title"));
 					result.setCtnt(rs.getNString("ctnt"));
 					result.setHits(rs.getInt("hits"));
 					result.setR_dt(rs.getNString("r_dt"));
+					result.setYn_like(rs.getInt("yn_like"));
 				}
 				return 1;
 			}

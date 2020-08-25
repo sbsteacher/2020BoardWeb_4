@@ -1,15 +1,32 @@
 package com.koreait.pjt.db;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.koreait.pjt.vo.UserLoginHistoryVO;
 import com.koreait.pjt.vo.UserVO;
 
 public class UserDAO {
+	
+	public static int insUserLoginHistory(UserLoginHistoryVO param) {
+		String sql = " INSERT INTO t_user_loginhistory "
+				+ " (i_history, i_user, ip_addr, os, browser) "
+				+ " VALUES "
+				+ " (seq_userloginhistory.nextval, ?, ?, ?, ?) ";
 		
+		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
+			@Override
+			public void update(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, param.getI_user());
+				ps.setNString(2, param.getIp_addr());
+				ps.setNString(3, param.getOs());
+				ps.setNString(4,  param.getBrowser());
+			}
+		});
+	}
+	
+	
 	public static int insUser(UserVO param) {		
 		String sql = " INSERT INTO t_user "
 				+ " (i_user, user_id, user_pw, nm, email) "

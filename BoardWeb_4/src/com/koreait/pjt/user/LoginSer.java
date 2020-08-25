@@ -59,18 +59,24 @@ public class LoginSer extends HttpServlet {
 			return;
 		}
 		
+		//------------------ 로긴 히스토리 기록 [start]
 		String agent = request.getHeader("User-Agent");
 		System.out.println("agent: " + agent);
 		String os = getOs(agent);
 		String browser = getBrowser(agent);
 		String ip_addr = request.getRemoteAddr();
 		
+		System.out.println("os: " + os);
+		System.out.println("browser: " + browser);
+		System.out.println("ip_addr: " + ip_addr);
+		
 		UserLoginHistoryVO ulhVO = new UserLoginHistoryVO();
 		ulhVO.setI_user(param.getI_user());
 		ulhVO.setOs(os);
 		ulhVO.setIp_addr(ip_addr);
-		ulhVO.setBrowser(browser);
-		
+		ulhVO.setBrowser(browser);		
+		UserDAO.insUserLoginHistory(ulhVO);
+		//------------------ 로긴 히스토리 기록 [end]
 		
 		
 		HttpSession hs = request.getSession();
@@ -80,12 +86,12 @@ public class LoginSer extends HttpServlet {
 		response.sendRedirect("/board/list");
 	}
 	private String getBrowser(String agent) {
-		if(agent.contains("msie")) {
+		if(agent.toLowerCase().contains("msie")) {
 			return "ie";
-		} else if(agent.contains("safari")) {
-			return "safari";
-		} else if(agent.contains("chrome")) {
+		} else if(agent.toLowerCase().contains("chrome")) {
 			return "chrome";
+		} else if(agent.toLowerCase().contains("safari")) {
+			return "safari";
 		}
 		
 		return "";
@@ -95,14 +101,16 @@ public class LoginSer extends HttpServlet {
 
 		if(agent.contains("mac")) {
 			return "mac";
-		} else if(agent.contains("windows")) {
+		} else if(agent.toLowerCase().contains("windows")) {
 			return "win";
-		} else if(agent.contains("x11")) {
-			return "linux";
-		} else if(agent.contains("android")) {
+		} else if(agent.toLowerCase().contains("x11")) {
+			return "unix";
+		} else if(agent.toLowerCase().contains("android")) {
 			return "android";
-		} else if(agent.contains("iphone")) {
+		} else if(agent.toLowerCase().contains("iphone")) {
 			return "iOS";
+		} else if(agent.toLowerCase().contains("linux")) {
+			return "linux";
 		}
 		
 		return "";
