@@ -22,15 +22,20 @@ public class BoardRegmodSer extends HttpServlet {
        
 	//화면 띄우는 용도(등록창/수정창)
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		if(MyUtils.isLogout(request)) {
+		UserVO loginUser = MyUtils.getLoginUser(request);
+		if(loginUser == null) {
 			response.sendRedirect("/login");
 			return;
 		}
+		BoardVO param = new BoardVO();
+		param.setI_user(loginUser.getI_user());
 		
 		String strI_board = request.getParameter("i_board");
 		if(strI_board != null) { //수정
 			int i_board = MyUtils.parseStrToInt(strI_board);
-			request.setAttribute("data", BoardDAO.selBoard(i_board));
+			
+			param.setI_board(i_board);
+			request.setAttribute("data", BoardDAO.selBoard(param));
 		}
 		
 		ViewResolver.forward("board/regmod", request, response);
