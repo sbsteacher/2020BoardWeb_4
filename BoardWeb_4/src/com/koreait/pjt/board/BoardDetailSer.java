@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.koreait.pjt.MyUtils;
 import com.koreait.pjt.ViewResolver;
+import com.koreait.pjt.db.BoardCmtDAO;
 import com.koreait.pjt.db.BoardDAO;
 import com.koreait.pjt.vo.BoardVO;
 import com.koreait.pjt.vo.UserVO;
@@ -38,11 +39,12 @@ public class BoardDetailSer extends HttpServlet {
 		}
 		//단독으로 조회수 올리기 방지! --- [end]
 		
-		
 		BoardVO param = new BoardVO();
 		param.setI_user(loginUser.getI_user());
 		param.setI_board(i_board);
 		request.setAttribute("data", BoardDAO.selBoard(param));
+		
+		request.setAttribute("cmtList", BoardCmtDAO.selCmtList(i_board));
 		
 		ViewResolver.forward("board/detail", request, response);
 	}

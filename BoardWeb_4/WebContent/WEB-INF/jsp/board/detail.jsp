@@ -99,6 +99,8 @@
             display: inline-block;
         }
         .pointerCursor { 	cursor: pointer; }
+        .marginTop30 { margin-top: 30px; }
+        #cmt { 	width: 630px; }
     </style>
 </head>
 
@@ -142,18 +144,33 @@
             </c:if>
         </div>
         
-        <div>
+        <div class="marginTop30">
         	<form id="cmtFrm" action="/board/cmt" method="post">
         		<input type="hidden" name="i_cmt" value="0">
         		<input type="hidden" name="i_board" value="${data.i_board}">
         		<div>
-        			<input type="text" name="cmt" placeholder="댓글내용">
+        			<input type="text" id="cmt" name="cmt" placeholder="댓글내용">
         			<input type="submit" value="전송">
         		</div>
         	</form>
         </div>
-        <div>
-        	댓글 리스트
+        <div class="marginTop30">
+        	<table>
+        		<tr>
+        			<th>내용</th>
+        			<th>글쓴이</th>
+        			<th>등록일</th>
+        			<th>비고</th>
+        		</tr>
+        		<c:forEach items="${cmtList}" var="item">
+        			<tr>
+        				<td>${item.cmt}</td>
+        				<td>${item.nm}</td>
+        				<td>${item.r_dt}</td>
+        				<td></td>
+        			</tr>
+        		</c:forEach>
+        	</table>
         </div>
     </div>
 
