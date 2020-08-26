@@ -167,7 +167,12 @@
         				<td>${item.cmt}</td>
         				<td>${item.nm}</td>
         				<td>${item.r_dt}</td>
-        				<td></td>
+        				<td>
+        					<c:if test="${item.i_user == loginUser.i_user}">
+        						<a href="/board/cmt?i_board=${data.i_board}&i_cmt=${item.i_cmt}"><button>삭제</button></a>
+        						<button>수정</button>
+        					</c:if>
+        				</td>
         			</tr>
         		</c:forEach>
         	</table>

@@ -69,7 +69,26 @@ public class BoardCmtDAO {
 		return 0;
 	}
 	
-	public static int delCmt() {
-		return 0;
+	public static int delCmt(BoardCmtVO param) {
+		String sql = " DELETE FROM t_board4_cmt "
+				+ " WHERE i_cmt = ? AND i_user = ? ";
+		
+		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
+			@Override
+			public void update(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, param.getI_cmt());
+				ps.setInt(2, param.getI_user());	
+			}
+		});
 	}
 }
+
+
+
+
+
+
+
+
+
+

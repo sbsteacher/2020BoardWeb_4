@@ -19,7 +19,18 @@ public class BoardCmtSer extends HttpServlet {
        
 	//댓글 (삭제)
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String strI_board = request.getParameter("i_board");
+		int i_cmt = MyUtils.getIntParameter(request, "i_cmt");
 		
+		UserVO loginUser = MyUtils.getLoginUser(request);
+		
+		BoardCmtVO param = new BoardCmtVO();
+		param.setI_cmt(i_cmt);
+		param.setI_user(loginUser.getI_user());
+		
+		BoardCmtDAO.delCmt(param);
+		
+		response.sendRedirect("/board/detail?i_board="+strI_board);
 	}
 	
 	//댓글 (등록/수정)
