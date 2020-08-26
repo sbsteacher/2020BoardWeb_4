@@ -141,6 +141,20 @@
                 </form>
             </c:if>
         </div>
+        
+        <div>
+        	<form id="cmtFrm" action="/board/cmt" method="post">
+        		<input type="hidden" name="i_cmt" value="0">
+        		<input type="hidden" name="i_board" value="${data.i_board}">
+        		<div>
+        			<input type="text" name="cmt" placeholder="댓글내용">
+        			<input type="submit" value="전송">
+        		</div>
+        	</form>
+        </div>
+        <div>
+        	댓글 리스트
+        </div>
     </div>
 
     <script>
