@@ -29,9 +29,9 @@ public class BoardDAO {
 	}
 	
 	public static int insBoard(BoardVO param) {
-		String sql = " INSERT INTO t_board4"
-				+ " (i_board, title, ctnt, i_user)"
-				+ " VALUES"
+		String sql = " INSERT INTO t_board4 "
+				+ " (i_board, title, ctnt, i_user) "
+				+ " VALUES "
 				+ " (seq_board4.nextval, ?, ?, ?) ";
 		
 		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
@@ -44,17 +44,28 @@ public class BoardDAO {
 		});
 	}
 	
-	public static List<BoardDomain> selBoardList() {
+	public static List<BoardDomain> selBoardList(BoardDomain param) {
 		List<BoardDomain> list = new ArrayList();
-		
+		/*
 		String sql = " SELECT A.i_board, A.title, A.hits, A.i_user, A.r_dt, B.nm "
 				+ " FROM t_board4 A INNER JOIN t_user B ON A.i_user = B.i_user "
 				+ " ORDER BY i_board DESC ";
+		*/
+		String sql = " SELECT A.* FROM ( "
+				+ " SELECT ROWNUM as RNUM, A.* FROM ( "
+				+ " SELECT A.i_board, A.title, A.hits, A.i_user, A.r_dt, B.nm "
+				+ " FROM t_board4 A INNER JOIN t_user B ON A.i_user = B.i_user "
+				+ " ORDER BY i_board DESC "
+				+ " ) A WHERE ROWNUM <= ? "
+				+ " ) A WHERE A.RNUM > ? ";
 		
 		int result = JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
 
 			@Override
-			public void prepared(PreparedStatement ps) throws SQLException {}
+			public void prepared(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, param.geteIdx());
+				ps.setInt(2, param.getsIdx());
+			}
 
 			@Override
 			public int executeQuery(ResultSet rs) throws SQLException {

@@ -29,11 +29,17 @@ public class BoardListSer extends HttpServlet {
 		System.out.println("page : " + page);
 		
 		
+		int eIdx = page * Const.RECORD_CNT;
+		int sIdx = eIdx - Const.RECORD_CNT;
+		
 		BoardDomain param = new BoardDomain();
+		param.setsIdx(sIdx);
+		param.seteIdx(eIdx);
+		
 		param.setRecord_cnt(Const.RECORD_CNT); //한 페이지당 20개 뿌리겠다
 		
 		request.setAttribute("pagingCnt", BoardDAO.selPagingCnt(param));
-		request.setAttribute("list", BoardDAO.selBoardList());
+		request.setAttribute("list", BoardDAO.selBoardList(param));
 		ViewResolver.forward("board/list", request, response);
 	}
 }
