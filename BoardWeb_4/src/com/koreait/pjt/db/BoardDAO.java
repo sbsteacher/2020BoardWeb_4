@@ -124,6 +124,28 @@ public class BoardDAO {
 		return result;
 	}
 	
+	//페이징 숫자 가져오기 
+	public static int selPagingCnt(final BoardDomain param) {
+		String sql = " SELECT CEIL(COUNT(i_board) / ?) FROM t_board4 ";
+		
+		return JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
+
+			@Override
+			public void prepared(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, param.getRecord_cnt());
+			}
+
+			@Override
+			public int executeQuery(ResultSet rs) throws SQLException {
+				if(rs.next()) {
+					return rs.getInt(1);
+				}
+				return 0;
+			}
+			
+		});
+	}
+	
 	public static int updBoard(final BoardVO param) {
 		String sql = " UPDATE t_board4 "
 				+ " SET m_dt = sysdate "

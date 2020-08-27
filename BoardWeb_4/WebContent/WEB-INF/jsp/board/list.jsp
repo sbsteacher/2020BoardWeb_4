@@ -68,6 +68,7 @@
 		margin-left: 200px;
 		font-weight : bold;
 	}
+	.fontCenter { text-align: center; }
 </style>
 </head>
 <body>
@@ -95,6 +96,11 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<div class="fontCenter">
+			<c:forEach begin="1" end="${pagingCnt}" var="item">
+				<span><a href="/board/list?page=${item}">${item}</a></span>
+			</c:forEach>
+		</div>
 		<div>
 			<a href="regmod"><button id="write">글작성</button></a>
 		</div>
