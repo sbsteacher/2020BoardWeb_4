@@ -54,7 +54,10 @@ public class BoardCmtSer extends HttpServlet {
 			
 			break;
 		default: //수정 (수정 일자 변경)
+			int i_cmt = MyUtils.parseStrToInt(strI_cmt);
+			param.setI_cmt(i_cmt);
 			
+			BoardCmtDAO.updCmt(param);
 			
 			break;
 		}

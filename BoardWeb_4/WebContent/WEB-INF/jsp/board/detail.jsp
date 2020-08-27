@@ -103,7 +103,6 @@
         #cmt { 	width: 580px; }
     </style>
 </head>
-
 <body>
     <div class="container">
         <table>
@@ -115,9 +114,9 @@
                 <th id="nm">작성자</th>
                 <td id="nm-1">${data.nm }</td>
                 <th id="date">작성일시</th>
-                <td id="date-1"> ${data.r_dt } <small>${data == null ? '' : '수정' }</small> </td>
+                <td id="date-1"> ${data.r_dt} <small>${data == null ? '' : '수정'}</small> </td>
                 <th id="hits">조회수</th>
-                <td id="hits-1">${data.hits }</td>                
+                <td id="hits-1">${data.hits}</td>                
                 <td class="pointerCursor" onclick="toggleLike(${data.yn_like})">
                 	<c:if test="${data.yn_like == 0 }">
 						<span class="material-icons">favorite_border</span>                	
@@ -129,7 +128,7 @@
             </tr>
         </table>
         <div class="ctnt">
-            ${data.ctnt }
+            ${data.ctnt}
         </div>
         <div class="btn">
              <button type="button"><a href="/board/list">목록</a></button>
@@ -151,7 +150,7 @@
         		<div>
         			<input type="text" id="cmt" name="cmt" placeholder="댓글내용">
         			<input type="submit" id="cmtSubmit" value="전송">
-        			<input type="button" value="취소" onclick="clkCmtCancle()">
+        			<input type="button" value="취소" onclick="clkCmtCancel()">
         		</div>
         	</form>
         </div>
@@ -170,7 +169,7 @@
         				<td>${item.r_dt}</td>
         				<td>
         					<c:if test="${item.i_user == loginUser.i_user}">
-        						<a href="/board/cmt?i_board=${data.i_board}&i_cmt=${item.i_cmt}"><button>삭제</button></a>
+        						<button onclick="clkCmtDel(${item.i_cmt})">삭제</button>
         						<button onclick="clkCmtMod(${item.i_cmt}, '${item.cmt}')">수정</button>
         					</c:if>
         				</td>
@@ -180,12 +179,18 @@
         </div>
     </div>
     <script>
-    	function clkCmtCancle() {
+    	function clkCmtCancel() {
     		cmtFrm.i_cmt.value = 0
     		cmtFrm.cmt.value = ''  //홑따옴표
     		cmtSubmit.value = '전송'
     	}
     
+    	function clkCmtDel(i_cmt) {
+    		if(confirm('삭제 하시겠습니까?')) {
+    			location.href = '/board/cmt?i_board=${data.i_board}&i_cmt=' + i_cmt
+    		}
+    	}
+    	
     	//댓글 수정
     	function clkCmtMod(i_cmt, cmt) {
     		console.log('i_cmt : ' + i_cmt)
