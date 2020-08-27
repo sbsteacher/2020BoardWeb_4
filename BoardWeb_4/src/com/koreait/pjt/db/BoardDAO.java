@@ -18,13 +18,11 @@ public class BoardDAO {
 				+ " (?, ?) ";
 		
 		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
-
 			@Override
 			public void update(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, param.getI_user());
 				ps.setInt(2, param.getI_board());
 			}
-			
 		});
 	}
 	

@@ -36,7 +36,7 @@ public class BoardListSer extends HttpServlet {
 		param.setsIdx(sIdx);
 		param.seteIdx(eIdx);
 		
-		param.setRecord_cnt(Const.RECORD_CNT); //한 페이지당 20개 뿌리겠다
+		param.setRecord_cnt(Const.RECORD_CNT);
 		
 		request.setAttribute("pagingCnt", BoardDAO.selPagingCnt(param));
 		request.setAttribute("list", BoardDAO.selBoardList(param));

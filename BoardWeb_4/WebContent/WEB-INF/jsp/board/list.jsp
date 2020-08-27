@@ -84,11 +84,31 @@
 </style>
 </head>
 <body>
-	
 	<div class="container">
 		<div class="usr-name">
 			<span id="usr-color">${loginUser.nm}</span>님 환영합니다
 			<button id="logout"><a href="/logout">로그아웃</a></button>
+		</div>
+		<div>
+			<form id="selFrm" action="/board/list" method="get">
+				<input type="hidden" name="page" value="${param.page == null ? 1 : param.page}">
+				레코드 수 : 
+				
+				<select name="record_cnt" onchange="changeRecordCnt()">
+					<c:forEach begin="10" end="30" step="10" var="item">
+						<c:choose>
+							<c:when test="${param.record_cnt == item || (param.record_cnt == null && item == 10)}">
+								<option value="${item}" selected>${item}개</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${item}">${item}개</option>	
+							</c:otherwise>							
+						</c:choose>
+						
+						
+					</c:forEach>
+				</select>
+			</form>
 		</div>
 		<table>
 			<tr>
@@ -111,7 +131,7 @@
 		<div class="fontCenter">
 			<c:forEach begin="1" end="${pagingCnt}" var="item">
 				<c:choose>
-					<c:when test="${param.page == item}">
+					<c:when test="${param.page == item || (param.page == null && item == 1)}">
 						<span class="pagingFont pageSelected">${item}</span>
 					</c:when>
 					<c:otherwise>
@@ -125,6 +145,10 @@
 		</div>
 	</div>
 	<script>
+		function changeRecordCnt() {
+			selFrm.submit()
+		}
+	
 		function moveToDetail(i_board) {
 			location.href = '/board/detail?i_board=' + i_board
 		}
