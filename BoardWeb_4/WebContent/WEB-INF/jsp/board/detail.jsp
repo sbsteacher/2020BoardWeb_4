@@ -100,7 +100,7 @@
         }
         .pointerCursor { 	cursor: pointer; }
         .marginTop30 { margin-top: 30px; }
-        #cmt { 	width: 630px; }
+        #cmt { 	width: 580px; }
     </style>
 </head>
 
@@ -150,7 +150,8 @@
         		<input type="hidden" name="i_board" value="${data.i_board}">
         		<div>
         			<input type="text" id="cmt" name="cmt" placeholder="댓글내용">
-        			<input type="submit" value="전송">
+        			<input type="submit" id="cmtSubmit" value="전송">
+        			<input type="button" value="취소" onclick="clkCmtCancle()">
         		</div>
         	</form>
         </div>
@@ -170,7 +171,7 @@
         				<td>
         					<c:if test="${item.i_user == loginUser.i_user}">
         						<a href="/board/cmt?i_board=${data.i_board}&i_cmt=${item.i_cmt}"><button>삭제</button></a>
-        						<button>수정</button>
+        						<button onclick="clkCmtMod(${item.i_cmt}, '${item.cmt}')">수정</button>
         					</c:if>
         				</td>
         			</tr>
@@ -178,10 +179,25 @@
         	</table>
         </div>
     </div>
-
     <script>
+    	function clkCmtCancle() {
+    		cmtFrm.i_cmt.value = 0
+    		cmtFrm.cmt.value = ''  //홑따옴표
+    		cmtSubmit.value = '전송'
+    	}
+    
+    	//댓글 수정
+    	function clkCmtMod(i_cmt, cmt) {
+    		console.log('i_cmt : ' + i_cmt)
+    		
+    		cmtFrm.i_cmt.value = i_cmt
+    		cmtFrm.cmt.value = cmt
+    		
+    		cmtSubmit.value = '수정'
+    	}
+    
     	function toggleLike(yn_like) {
-    		location.href="/board/toggleLike?i_board=${data.i_board}&yn_like=" + yn_like
+    		location.href='/board/toggleLike?i_board=${data.i_board}&yn_like=' + yn_like
     	}
     
         function submitDel() {

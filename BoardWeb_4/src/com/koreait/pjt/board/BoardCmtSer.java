@@ -53,7 +53,8 @@ public class BoardCmtSer extends HttpServlet {
 			BoardCmtDAO.insCmt(param);
 			
 			break;
-		default: //수정
+		default: //수정 (수정 일자 변경)
+			
 			
 			break;
 		}
