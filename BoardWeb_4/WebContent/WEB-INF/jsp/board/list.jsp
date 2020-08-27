@@ -69,6 +69,18 @@
 		font-weight : bold;
 	}
 	.fontCenter { text-align: center; }
+	.pageSelected { color:red; font-weight: bold; }
+	a {
+		text-decoration: none;
+		color:black;
+	}
+	.pagingFont {
+		font-size: 1.3em;
+	}
+	
+	.pagingFont:not(:first-child) {
+		margin-left: 13px;
+	}
 </style>
 </head>
 <body>
@@ -98,7 +110,14 @@
 		</table>
 		<div class="fontCenter">
 			<c:forEach begin="1" end="${pagingCnt}" var="item">
-				<span><a href="/board/list?page=${item}">${item}</a></span>
+				<c:choose>
+					<c:when test="${param.page == item}">
+						<span class="pagingFont pageSelected">${item}</span>
+					</c:when>
+					<c:otherwise>
+						<span class="pagingFont"><a href="/board/list?page=${item}">${item}</a></span>
+					</c:otherwise>
+				</c:choose>
 			</c:forEach>
 		</div>
 		<div>
