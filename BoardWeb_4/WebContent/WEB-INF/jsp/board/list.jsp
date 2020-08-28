@@ -91,7 +91,7 @@
 		</div>
 		<div>
 			<form id="selFrm" action="/board/list" method="get">
-				<input type="hidden" name="page" value="${param.page == null ? 1 : param.page}">
+				<input type="hidden" name="page" value="${page}">
 				레코드 수 :
 				<select name="record_cnt" onchange="changeRecordCnt()">
 					<c:forEach begin="10" end="30" step="10" var="item">
@@ -128,11 +128,13 @@
 		<div class="fontCenter">
 			<c:forEach begin="1" end="${pagingCnt}" var="item">
 				<c:choose>
-					<c:when test="${param.page == item || (param.page == null && item == 1)}">
+					<c:when test="${page == item}">
 						<span class="pagingFont pageSelected">${item}</span>
 					</c:when>
 					<c:otherwise>
-						<span class="pagingFont"><a href="/board/list?page=${item}">${item}</a></span>
+						<span class="pagingFont">
+							<a href="/board/list?page=${item}&record_cnt=${param.record_cnt}">${item}</a>
+						</span>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
