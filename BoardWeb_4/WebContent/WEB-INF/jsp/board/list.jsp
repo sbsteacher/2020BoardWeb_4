@@ -91,6 +91,7 @@
 		</div>
 		<div>
 			<form id="selFrm" action="/board/list" method="get">
+				<input type="hidden" name="searchText" value="${param.searchText}">
 				<input type="hidden" name="page" value="${page}">
 				레코드 수 :
 				<select name="record_cnt" onchange="changeRecordCnt()">
@@ -125,6 +126,12 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<div>
+			<form action="/board/list">
+				<input type="search" name="searchText" value="${param.searchText}">
+				<input type="submit" value="검색">
+			</form>
+		</div>
 		<div class="fontCenter">
 			<c:forEach begin="1" end="${pagingCnt}" var="item">
 				<c:choose>
@@ -133,7 +140,7 @@
 					</c:when>
 					<c:otherwise>
 						<span class="pagingFont">
-							<a href="/board/list?page=${item}&record_cnt=${param.record_cnt}">${item}</a>
+							<a href="/board/list?page=${item}&record_cnt=${param.record_cnt}&searchText=${param.searchText}">${item}</a>
 						</span>
 					</c:otherwise>
 				</c:choose>
@@ -149,7 +156,7 @@
 		}
 	
 		function moveToDetail(i_board) {
-			location.href = '/board/detail?page=${page}&record_cnt=${param.record_cnt}&i_board=' + i_board
+			location.href = '/board/detail?page=${page}&record_cnt=${param.record_cnt}&searchText=${param.searchText}&i_board=' + i_board
 		}
 	</script>
 </body>

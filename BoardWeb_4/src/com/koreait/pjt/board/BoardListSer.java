@@ -19,12 +19,13 @@ public class BoardListSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession hs = (HttpSession)request.getSession();
-		
 		if(MyUtils.isLogout(request)) {
 			response.sendRedirect("/login");
 			return;
 		}
+		
+		String searchText = request.getParameter("searchText");
+		searchText = (searchText == null ? "": searchText);
 		
 		int page = MyUtils.getIntParameter(request, "page");
 		page = (page == 0 ? 1 : page);
@@ -34,7 +35,8 @@ public class BoardListSer extends HttpServlet {
 		
 		BoardDomain param = new BoardDomain();
 		param.setRecord_cnt(recordCnt);
-		int pagingCnt = BoardDAO.selPagingCnt(param); //3
+		param.setSearchText("%" + searchText + "%");
+		int pagingCnt = BoardDAO.selPagingCnt(param); //
 				
 		//이전 레코드수 값이 있고, 이전 레코드수보다 변경한 레코드 수가 더 크다면 마지막 페이지수로 변경
 		if(page > pagingCnt) {  

@@ -132,7 +132,7 @@
         </div>
         <div class="btn">
              <button type="button">
-             	<a href="/board/list?page=${param.page}&record_cnt=${param.record_cnt}">목록</a>
+             	<a href="/board/list?page=${param.page}&record_cnt=${param.record_cnt}&searchText=${param.searchText}">목록</a>
              </button>
              <c:if test="${loginUser.i_user == data.i_user }">
                 <button type="submit">
@@ -204,7 +204,7 @@
     	}
     
     	function toggleLike(yn_like) {
-    		location.href='/board/toggleLike?i_board=${data.i_board}&yn_like=' + yn_like
+    		location.href='/board/toggleLike?page=${param.page}&record_cnt=${param.record_cnt}&searchText=${param.searchText}&i_board=${data.i_board}&yn_like=' + yn_like
     	}
     
         function submitDel() {
