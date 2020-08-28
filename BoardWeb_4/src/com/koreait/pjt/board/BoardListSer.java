@@ -36,13 +36,13 @@ public class BoardListSer extends HttpServlet {
 		param.setRecord_cnt(recordCnt);
 		int pagingCnt = BoardDAO.selPagingCnt(param);
 		
-		Integer beforeRecordCnt = (Integer)hs.getAttribute("recordCnt");
+		Integer beforeRecordCnt = (Integer)hs.getAttribute("recordCnt"); //이전 레코드수 가져오기
 		
 		//이전 레코드수 값이 있고, 이전 레코드수보다 변경한 레코드 수가 더 크다면 마지막 페이지수로 변경
 		if(beforeRecordCnt != null && beforeRecordCnt < recordCnt) {  
-			page = pagingCnt;
+			page = pagingCnt; //마지막 페이지 값으로 변경
 		}
-		request.setAttribute("page", page);
+		request.setAttribute("page", page); 
 		System.out.println("page : " + page);
 		
 		int eIdx = page * recordCnt;
@@ -57,8 +57,7 @@ public class BoardListSer extends HttpServlet {
 		request.setAttribute("list", BoardDAO.selBoardList(param));
 		
 		
-		
-		hs.setAttribute("recordCnt", recordCnt);
+		hs.setAttribute("recordCnt", recordCnt); //현재 레코드수 저장
 		ViewResolver.forward("board/list", request, response);
 	}
 }

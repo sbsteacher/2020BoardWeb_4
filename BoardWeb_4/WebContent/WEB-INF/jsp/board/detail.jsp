@@ -131,7 +131,9 @@
             ${data.ctnt}
         </div>
         <div class="btn">
-             <button type="button"><a href="/board/list">목록</a></button>
+             <button type="button">
+             	<a href="/board/list?page=${param.page}&record_cnt=${param.record_cnt}">목록</a>
+             </button>
              <c:if test="${loginUser.i_user == data.i_user }">
                 <button type="submit">
                     <a href="/board/regmod?i_board=${data.i_board}">수정</a>
