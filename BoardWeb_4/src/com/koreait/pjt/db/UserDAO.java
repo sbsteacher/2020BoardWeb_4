@@ -76,4 +76,35 @@ public class UserDAO {
 			}		
 		});
 	}
+	
+	public static UserVO selUser(final int i_user) {
+		String sql = " SELECT user_id, nm, profile_img, email, r_dt "
+				+ " FROM t_user WHERE i_user = ? ";
+		
+		UserVO result = new UserVO();
+		
+		JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
+
+			@Override
+			public void prepared(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, i_user);
+			}
+
+			@Override
+			public int executeQuery(ResultSet rs) throws SQLException {
+				if(rs.next()) {
+					result.setUser_id(rs.getNString("user_id"));
+					result.setNm(rs.getNString("nm"));
+					result.setProfile_img(rs.getNString("profile_img"));
+					result.setEmail(rs.getNString("email"));
+					result.setR_dt(rs.getNString("r_dt"));
+				}
+				return 1;
+			}
+			
+		});
+		
+		return result;
+	}
+	
 }

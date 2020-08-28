@@ -87,6 +87,7 @@
 	<div class="container">
 		<div class="usr-name">
 			<span id="usr-color">${loginUser.nm}</span>님 환영합니다
+			<a href="/profile">프로필</a>
 			<button id="logout"><a href="/logout">로그아웃</a></button>
 		</div>
 		<div>

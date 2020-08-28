@@ -73,8 +73,8 @@
 		<h1>Login</h1>
 		<div>
 			<form id="frm" action="/login" method="post">
-				<div><input type="text" name="user_id" placeholder="아이디" autofocus value="${user_id }"></div>
-				<div><input type="password" name="user_pw" placeholder="비밀번호"></div>
+				<div><input type="text" name="user_id" placeholder="아이디" autofocus value="jquery"></div>
+				<div><input type="password" name="user_pw" placeholder="비밀번호" value="121212"></div>
 				<div><button type="submit">로그인</button></div>
 			</form>
 			<div class="err">${msg }</div>
