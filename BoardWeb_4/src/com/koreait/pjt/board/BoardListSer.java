@@ -24,19 +24,21 @@ public class BoardListSer extends HttpServlet {
 			return;
 		}
 		
+		int recordCnt = MyUtils.getIntParameter(request, "record_cnt");
+		recordCnt = (recordCnt == 0 ? 10 : recordCnt);
+		
 		int page = MyUtils.getIntParameter(request, "page");
 		page = (page == 0 ? 1 : page);
 		System.out.println("page : " + page);
 		
-		
-		int eIdx = page * Const.RECORD_CNT;
-		int sIdx = eIdx - Const.RECORD_CNT;
+		int eIdx = page * recordCnt;
+		int sIdx = eIdx - recordCnt;
 		
 		BoardDomain param = new BoardDomain();
 		param.setsIdx(sIdx);
 		param.seteIdx(eIdx);
 		
-		param.setRecord_cnt(Const.RECORD_CNT);
+		param.setRecord_cnt(recordCnt);
 		
 		request.setAttribute("pagingCnt", BoardDAO.selPagingCnt(param));
 		request.setAttribute("list", BoardDAO.selBoardList(param));

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -92,20 +92,17 @@
 		<div>
 			<form id="selFrm" action="/board/list" method="get">
 				<input type="hidden" name="page" value="${param.page == null ? 1 : param.page}">
-				레코드 수 : 
-				
+				레코드 수 :
 				<select name="record_cnt" onchange="changeRecordCnt()">
 					<c:forEach begin="10" end="30" step="10" var="item">
 						<c:choose>
-							<c:when test="${param.record_cnt == item || (param.record_cnt == null && item == 10)}">
+							<c:when test="${param.record_cnt == item}">
 								<option value="${item}" selected>${item}개</option>
 							</c:when>
 							<c:otherwise>
 								<option value="${item}">${item}개</option>	
 							</c:otherwise>							
 						</c:choose>
-						
-						
 					</c:forEach>
 				</select>
 			</form>
