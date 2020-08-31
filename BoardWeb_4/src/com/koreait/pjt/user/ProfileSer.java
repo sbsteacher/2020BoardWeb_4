@@ -44,37 +44,36 @@ public class ProfileSer extends HttpServlet {
 		
 		int maxFileSize = 10_485_760; //1024 * 1024 * 10 (10mb) //최대 파일 사이즈 크기
 		String fileNm = "";
-		String originFileNm = "";
+		String saveFileNm = null;
 		
 		try {
 			MultipartRequest mr = new MultipartRequest(request, savePath
 					, maxFileSize, "UTF-8", new DefaultFileRenamePolicy());
-			
-			System.out.println("mr : " + mr);
-			
 			Enumeration files = mr.getFileNames();
 			
-			while(files.hasMoreElements()) {
+			if(files.hasMoreElements()) {
 				String key = (String)files.nextElement();
 				fileNm = mr.getFilesystemName(key);
-				originFileNm = mr.getOriginalFileName(key);
-				
+				String ext = fileNm.substring(fileNm.lastIndexOf("."));
+				saveFileNm = UUID.randomUUID() + ext;				
 				System.out.println("key : " + key);
 				System.out.println("fileNm : " + fileNm);
-				System.out.println("originFileNm : " + originFileNm);
-				
+				System.out.println("saveFileNm : " + saveFileNm);				
 				File oldFile = new File(savePath + "/" + fileNm);
-			    File newFile = new File(savePath + "/" + UUID.randomUUID() + ".jpg");
-
+			    File newFile = new File(savePath + "/" + saveFileNm);
 			    oldFile.renameTo(newFile);				  
 			}
-			
-			
-			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		if(saveFileNm != null) { //DB에 프로필 파일명 저장
+			UserVO param = new UserVO();
+			param.setProfile_img(saveFileNm);
+			param.setI_user(loginUser.getI_user());
+			UserDAO.updUser(param);
+		}
 		
+		response.sendRedirect("/profile");
 	}
 
 }
