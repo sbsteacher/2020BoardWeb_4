@@ -31,8 +31,16 @@ public class ProfileSer extends HttpServlet {
 
 	//이미지 변경 처리
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String savePath = getServletContext().getRealPath("img"); //저장경로
+		UserVO loginUser = MyUtils.getLoginUser(request);
+		
+		String savePath = getServletContext().getRealPath("img") + "/user/" + loginUser.getI_user(); //저장경로
 		System.out.println("savePath : " + savePath);
+		
+		//만약 폴더(디렉토리)가 없다면 폴더 생성
+		File directory = new File(savePath);
+		if(!directory.exists()) {
+			directory.mkdirs();
+		}
 		
 		int maxFileSize = 10_485_760; //1024 * 1024 * 10 (10mb) //최대 파일 사이즈 크기
 		String fileNm = "";
