@@ -51,7 +51,7 @@ public class BoardDAO {
 		*/
 		String sql = " SELECT A.* FROM ( "
 				+ " SELECT ROWNUM as RNUM, A.* FROM ( "
-				+ " SELECT A.i_board, A.title, A.hits, A.i_user, A.r_dt, B.nm "
+				+ " SELECT A.i_board, A.title, A.hits, A.i_user, A.r_dt, B.nm, B.profile_img "
 				+ " FROM t_board4 A INNER JOIN t_user B ON A.i_user = B.i_user "
 				+ " WHERE A.title LIKE ? "
 				+ " ORDER BY i_board DESC "
@@ -76,6 +76,7 @@ public class BoardDAO {
 					int i_user = rs.getInt("i_user");
 					String r_dt = rs.getNString("r_dt");
 					String nm = rs.getNString("nm");
+					String profile_img = rs.getNString("profile_img");
 					
 					BoardDomain vo = new BoardDomain();
 					vo.setI_board(i_board);
@@ -84,6 +85,7 @@ public class BoardDAO {
 					vo.setI_user(i_user);
 					vo.setR_dt(r_dt);
 					vo.setNm(nm);
+					vo.setProfile_img(profile_img);
 					
 					list.add(vo);
 				}

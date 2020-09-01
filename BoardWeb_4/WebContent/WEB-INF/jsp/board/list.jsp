@@ -81,6 +81,20 @@
 	.pagingFont:not(:first-child) {
 		margin-left: 13px;
 	}
+	
+	.containerPImg {
+		display: inline-block;	
+		width: 30px;
+		height: 30px;
+	    border-radius: 50%;
+	    overflow: hidden;
+	}
+	
+	.pImg {
+	
+		 object-fit: cover;
+		  max-width:100%;
+	}
 </style>
 </head>
 <body>
@@ -122,7 +136,19 @@
 					<td>${item.i_board}</td>
 					<td>${item.title}</td>
 					<td>${item.hits}</td>
-					<td>${item.nm}</td>
+					<td>
+						<div class="containerPImg">
+							<c:choose>
+								<c:when test="${item.profile_img != null}">
+									<img class="pImg" src="/img/user/${item.i_user}/${item.profile_img}">
+								</c:when>
+								<c:otherwise>
+									<img class="pImg" src="/img/default_profile.jpg">
+								</c:otherwise>
+							</c:choose>
+						</div>
+						${item.nm}
+					</td>
 					<td>${item.r_dt}</td>
 				</tr>
 			</c:forEach>
