@@ -30,8 +30,8 @@ public class BoardCmtDAO {
 	public static List<BoardCmtDomain> selCmtList(final int i_board) {
 		List<BoardCmtDomain> list = new ArrayList();
 		
-		String sql = " SELECT A.i_cmt, B.i_user "
-				+ " , A.cmt, A.r_dt, B.nm "
+		String sql = " SELECT B.nm, B.i_user, B.profile_img "
+				+ " , A.cmt, A.r_dt, A.i_cmt "
 				+ " FROM t_board4_CMT A "
 				+ " INNER JOIN t_user B "
 				+ " ON A.i_user = B.i_user "
@@ -49,6 +49,7 @@ public class BoardCmtDAO {
 			public int executeQuery(ResultSet rs) throws SQLException {
 				while(rs.next()) {
 					BoardCmtDomain vo = new BoardCmtDomain();
+					vo.setProfile_img(rs.getNString("profile_img"));
 					vo.setI_cmt(rs.getInt("i_cmt"));
 					vo.setI_user(rs.getInt("i_user"));
 					vo.setCmt(rs.getNString("cmt"));

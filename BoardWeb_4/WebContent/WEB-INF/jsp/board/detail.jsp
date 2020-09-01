@@ -101,6 +101,20 @@
         .pointerCursor { 	cursor: pointer; }
         .marginTop30 { margin-top: 30px; }
         #cmt { 	width: 580px; }
+        
+        .containerPImg {
+			display: inline-block;	
+			width: 30px;
+			height: 30px;
+		    border-radius: 50%;
+		    overflow: hidden;
+		}
+		
+		.pImg {
+			object-fit: cover;
+			height: 100%;
+			width: 100%;
+		}
     </style>
 </head>
 <body>
@@ -112,7 +126,19 @@
             </tr>
             <tr class="boardInfo">
                 <th id="nm">작성자</th>
-                <td id="nm-1">${data.nm }</td>
+                <td id="nm-1">
+                	<div class="containerPImg">
+						<c:choose>
+							<c:when test="${item.profile_img != null}">
+								<img class="pImg" src="/img/user/${item.i_user}/${item.profile_img}">
+							</c:when>
+							<c:otherwise>
+								<img class="pImg" src="/img/default_profile.jpg">
+							</c:otherwise>
+						</c:choose>
+					</div>
+                	${data.nm }
+                </td>
                 <th id="date">작성일시</th>
                 <td id="date-1"> ${data.r_dt} <small>${data == null ? '' : '수정'}</small> </td>
                 <th id="hits">조회수</th>
@@ -160,6 +186,7 @@
         	<table>
         		<tr>
         			<th>내용</th>
+        			<th> </th>
         			<th>글쓴이</th>
         			<th>등록일</th>
         			<th>비고</th>
@@ -167,6 +194,18 @@
         		<c:forEach items="${cmtList}" var="item">
         			<tr>
         				<td>${item.cmt}</td>
+        				<td>
+	        				<div class="containerPImg">
+								<c:choose>
+									<c:when test="${item.profile_img != null}">
+										<img class="pImg" src="/img/user/${item.i_user}/${item.profile_img}">
+									</c:when>
+									<c:otherwise>
+										<img class="pImg" src="/img/default_profile.jpg">
+									</c:otherwise>
+								</c:choose>
+							</div>
+        				</td>
         				<td>${item.nm}</td>
         				<td>${item.r_dt}</td>
         				<td>

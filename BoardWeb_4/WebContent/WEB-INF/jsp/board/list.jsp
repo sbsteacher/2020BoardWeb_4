@@ -91,9 +91,9 @@
 	}
 	
 	.pImg {
-	
-		 object-fit: cover;
-		  max-width:100%;
+		object-fit: cover;
+		height: 100%;
+		width: 100%;
 	}
 </style>
 </head>
@@ -128,6 +128,7 @@
 				<th>No</th>
 				<th>제목</th>
 				<th>조회수</th>
+				<th> </th>
 				<th>작성자</th>
 				<th>작성일</th>
 			</tr>
@@ -147,6 +148,8 @@
 								</c:otherwise>
 							</c:choose>
 						</div>
+					</td>
+					<td>
 						${item.nm}
 					</td>
 					<td>${item.r_dt}</td>

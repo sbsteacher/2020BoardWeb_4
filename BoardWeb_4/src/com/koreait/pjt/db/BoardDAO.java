@@ -100,7 +100,7 @@ public class BoardDAO {
 		final BoardDomain result = new BoardDomain();
 		result.setI_board(param.getI_board());
 		
-		String sql = " SELECT B.nm, A.i_user "
+		String sql = " SELECT B.profile_img, B.nm, A.i_user "
 				+ " , A.title, A.ctnt, A.hits, TO_CHAR(A.r_dt, 'YYYY/MM/DD HH24:MI') as r_dt"
 				+ " , DECODE(C.i_user, null, 0, 1) as yn_like "
 				+ " FROM t_board4 A "
@@ -122,6 +122,7 @@ public class BoardDAO {
 			@Override
 			public int executeQuery(ResultSet rs) throws SQLException {
 				if(rs.next()) {
+					result.setProfile_img(rs.getNString("profile_img"));
 					result.setI_user(rs.getInt("i_user")); //작성자 i_user
 					result.setNm(rs.getNString("nm"));
 					result.setTitle(rs.getNString("title"));
