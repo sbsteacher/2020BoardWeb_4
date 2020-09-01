@@ -129,8 +129,8 @@
                 <td id="nm-1">
                 	<div class="containerPImg">
 						<c:choose>
-							<c:when test="${item.profile_img != null}">
-								<img class="pImg" src="/img/user/${item.i_user}/${item.profile_img}">
+							<c:when test="${data.profile_img != null}">
+								<img class="pImg" src="/img/user/${data.i_user}/${data.profile_img}">
 							</c:when>
 							<c:otherwise>
 								<img class="pImg" src="/img/default_profile.jpg">
