@@ -1,6 +1,7 @@
 package com.koreait.pjt.board;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,7 +43,7 @@ public class BoardListSer extends HttpServlet {
 		param.setRecord_cnt(recordCnt);
 		param.setSearchType(searchType);
 		param.setSearchText("%" + searchText + "%");
-		int pagingCnt = BoardDAO.selPagingCnt(param); //
+		int pagingCnt = BoardDAO.selPagingCnt(param);
 				
 		//이전 레코드수 값이 있고, 이전 레코드수보다 변경한 레코드 수가 더 크다면 마지막 페이지수로 변경
 		if(page > pagingCnt) {  
@@ -59,7 +60,19 @@ public class BoardListSer extends HttpServlet {
 		param.seteIdx(eIdx);
 		
 		request.setAttribute("pagingCnt", pagingCnt);
-		request.setAttribute("list", BoardDAO.selBoardList(param));
+		
+		List<BoardDomain> list = BoardDAO.selBoardList(param);
+		//하이라이트 처리
+		if(!"".equals(searchText) && ("a".equals(searchType) || "c".equals(searchType))) {
+			for(BoardDomain item : list) {
+				String title = item.getTitle();
+				title = title.replace(searchText
+						, "<span class=\"highlight\">" + searchText +"</span>");
+				item.setTitle(title);
+			}
+		}
+		
+		request.setAttribute("list", list);
 				
 		ViewResolver.forward("board/list", request, response);
 	}
@@ -73,4 +86,4 @@ public class BoardListSer extends HttpServlet {
 
 
 
-
+ 

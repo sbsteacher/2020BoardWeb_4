@@ -96,6 +96,11 @@
 		height: 100%;
 		width: 100%;
 	}
+	
+	.highlight {
+		color: red;
+		font-weight: bold;
+	}
 </style>
 </head>
 <body>
