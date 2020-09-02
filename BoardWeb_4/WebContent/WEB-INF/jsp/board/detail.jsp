@@ -115,6 +115,11 @@
 			height: 100%;
 			width: 100%;
 		}
+		
+		.highlight {
+			color: red;
+			font-weight: bold;
+		}
     </style>
 </head>
 <body>
@@ -122,7 +127,7 @@
         <table>
             <tr id="title">
                 <th>제목</th>
-                <th colspan="6">${data.title}</th>
+                <th colspan="6" id="elTitle">${data.title}</th>
             </tr>
             <tr class="boardInfo">
                 <th id="nm">작성자</th>
@@ -153,7 +158,7 @@
                 </td>
             </tr>
         </table>
-        <div class="ctnt">
+        <div class="ctnt" id="elCtnt">
             ${data.ctnt}
         </div>
         <div class="btn">
@@ -249,6 +254,36 @@
         function submitDel() {
             delFrm.submit()
         }
+        
+        function doHighlight() {
+        	var searchText = '${param.searchText}'
+        	var searchType = '${param.searchType}'
+        	
+        	switch(searchType) {
+        	case 'a': //제목
+        		var txt = elTitle.innerText
+        		txt = txt.replace(/${param.searchText}/gi, '<span class="highlight">' + searchText + '</span>')
+        		elTitle.innerHTML = txt
+        		break
+        	case 'b': //내용
+        		var txt = elCtnt.innerText
+        		txt = txt.replace(/${param.searchText}/gi, '<span class="highlight">' + searchText + '</span>')
+        		elCtnt.innerHTML = txt
+        		
+        		break
+        	case 'c': //제목+내용
+        		var txt = elTitle.innerText
+        		txt = txt.replace(/${param.searchText}/gi, '<span class="highlight">' + searchText + '</span>')
+        		elTitle.innerHTML = txt
+        		
+        		txt = elCtnt.innerText
+        		txt = txt.replace(/${param.searchText}/gi, '<span class="highlight">' + searchText + '</span>')
+        		elCtnt.innerHTML = txt
+        		break
+        	}
+        }
+        
+        doHighlight()
     </script>
 </body>
 
