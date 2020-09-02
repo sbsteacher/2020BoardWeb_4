@@ -243,7 +243,7 @@
     	}
     
     	function toggleLike(yn_like) {
-    		location.href='/board/toggleLike?page=${param.page}&record_cnt=${param.record_cnt}&searchText=${param.searchText}&i_board=${data.i_board}&yn_like=' + yn_like
+    		location.href='/board/toggleLike?page=${param.page}&record_cnt=${param.record_cnt}&searchType=${param.searchType}&searchText=${param.searchText}&i_board=${data.i_board}&yn_like=' + yn_like
     	}
     
         function submitDel() {

@@ -24,6 +24,7 @@ public class BoardToggleLike extends HttpServlet {
 		String page = request.getParameter("page");
 		String record_cnt = request.getParameter("record_cnt");
 		String searchText = request.getParameter("searchText");
+		String searchType = request.getParameter("searchType");
 		
 		searchText = URLEncoder.encode(searchText, "UTF-8");
 		
@@ -42,8 +43,8 @@ public class BoardToggleLike extends HttpServlet {
 			BoardDAO.delBoardLike(param);
 		}
 		
-		String target = String.format("/board/detail?i_board=%s&page=%s&record_cnt=%s&searchText=%s"
-				, strI_board, page, record_cnt, searchText);
+		String target = String.format("/board/detail?i_board=%s&page=%s&record_cnt=%s&searchText=%s&searchType=%s"
+				, strI_board, page, record_cnt, searchText, searchType);
 		
 		response.sendRedirect(target);
 	}

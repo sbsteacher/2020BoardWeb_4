@@ -95,7 +95,7 @@ public class BoardDAO {
 				ps.setInt(seq, param.getI_user()); //로그인한 사람의 i_user
 				ps.setNString(++seq, param.getSearchText());
 				
-				if(param.getSearchType().equals("c")) {
+				if("c".equals(param.getSearchType())) {
 					ps.setNString(++seq, param.getSearchText());	
 				}
 				
