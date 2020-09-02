@@ -158,7 +158,7 @@
         </div>
         <div class="btn">
              <button type="button">
-             	<a href="/board/list?page=${param.page}&record_cnt=${param.record_cnt}&searchText=${param.searchText}">목록</a>
+             	<a href="/board/list?page=${param.page}&record_cnt=${param.record_cnt}&searchText=${param.searchText}&searchType=${param.searchType}">목록</a>
              </button>
              <c:if test="${loginUser.i_user == data.i_user }">
                 <button type="submit">

@@ -170,6 +170,11 @@
 		</table>
 		<div>
 			<form action="/board/list">
+				<select name="searchType">
+					<option value="a" ${searchType == 'a' ? 'selected': ''}>제목</option>
+					<option value="b" ${searchType == 'b' ? 'selected': ''}>내용</option>
+					<option value="c" ${searchType == 'c' ? 'selected': ''}>제목+내용</option>
+				</select>
 				<input type="search" name="searchText" value="${param.searchText}">
 				<input type="submit" value="검색">
 			</form>
@@ -182,7 +187,7 @@
 					</c:when>
 					<c:otherwise>
 						<span class="pagingFont">
-							<a href="/board/list?page=${item}&record_cnt=${param.record_cnt}&searchText=${param.searchText}">${item}</a>
+							<a href="/board/list?page=${item}&record_cnt=${param.record_cnt}&searchText=${param.searchText}&searchType=${searchType}">${item}</a>
 						</span>
 					</c:otherwise>
 				</c:choose>
@@ -198,7 +203,7 @@
 		}
 	
 		function moveToDetail(i_board) {
-			location.href = '/board/detail?page=${page}&record_cnt=${param.record_cnt}&searchText=${param.searchText}&i_board=' + i_board
+			location.href = '/board/detail?page=${page}&record_cnt=${param.record_cnt}&searchType=${searchType}&searchText=${param.searchText}&i_board=' + i_board
 		}
 	</script>
 </body>

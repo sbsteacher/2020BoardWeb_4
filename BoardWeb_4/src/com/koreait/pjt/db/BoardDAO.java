@@ -70,8 +70,20 @@ public class BoardDAO {
 				+ "				 SELECT i_board FROM t_board4_like WHERE i_user = ? "
 				+ "			) E "
 				+ "			ON A.i_board = E.i_board "
-				+ " 		WHERE A.title LIKE ? "
-				+ " 		ORDER BY i_board DESC "
+				+ " 		WHERE  ";
+				switch(param.getSearchType()) {
+				case "a":					
+					sql += " A.title like ? ";
+					break;
+				case "b":
+					sql += " A.ctnt like ? ";
+					break;
+				case "c":
+					sql += " (A.ctnt like ? or A.title like ?) ";
+					break;
+				}
+		
+				sql += " 		ORDER BY i_board DESC "
 				+ " 	) A WHERE ROWNUM <= ? "
 				+ " ) A WHERE A.RNUM > ? ";
 		
@@ -79,10 +91,16 @@ public class BoardDAO {
 
 			@Override
 			public void prepared(PreparedStatement ps) throws SQLException {
-				ps.setInt(1, param.getI_user()); //로그인한 사람의 i_user
-				ps.setNString(2, param.getSearchText());
-				ps.setInt(3, param.geteIdx());
-				ps.setInt(4, param.getsIdx());
+				int seq = 1;
+				ps.setInt(seq, param.getI_user()); //로그인한 사람의 i_user
+				ps.setNString(++seq, param.getSearchText());
+				
+				if(param.getSearchType().equals("c")) {
+					ps.setNString(++seq, param.getSearchText());	
+				}
+				
+				ps.setInt(++seq, param.geteIdx());
+				ps.setInt(++seq, param.getsIdx());
 			}
 
 			@Override
@@ -164,15 +182,29 @@ public class BoardDAO {
 	
 	//페이징 숫자 가져오기 
 	public static int selPagingCnt(final BoardDomain param) {
-		String sql = " SELECT CEIL(COUNT(i_board) / ?) FROM t_board4 "
-				+ " WHERE title LIKE ? ";
+		String sql = " SELECT CEIL(COUNT(i_board) / ?) FROM t_board4 WHERE ";
+		
+		switch(param.getSearchType()) {
+		case "a":					
+			sql += " title like ? ";
+			break;
+		case "b":
+			sql += " ctnt like ? ";
+			break;
+		case "c":
+			sql += " (ctnt like ? or title like ?) ";
+			break;
+		}				
 		
 		return JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
 
 			@Override
 			public void prepared(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, param.getRecord_cnt());
-				ps.setNString(2, param.getSearchText());
+				ps.setNString(2, param.getSearchText());				
+				if(param.getSearchType().equals("c")) {
+					ps.setNString(3, param.getSearchText());	
+				}
 			}
 
 			@Override

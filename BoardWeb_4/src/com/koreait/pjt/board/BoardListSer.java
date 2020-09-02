@@ -25,6 +25,8 @@ public class BoardListSer extends HttpServlet {
 			response.sendRedirect("/login");
 			return;
 		}
+		String searchType = request.getParameter("searchType");
+		searchType = (searchType == null) ? "a" : searchType;
 		
 		String searchText = request.getParameter("searchText");
 		searchText = (searchText == null ? "": searchText);
@@ -38,6 +40,7 @@ public class BoardListSer extends HttpServlet {
 		BoardDomain param = new BoardDomain();
 		param.setI_user(loginUser.getI_user());
 		param.setRecord_cnt(recordCnt);
+		param.setSearchType(searchType);
 		param.setSearchText("%" + searchText + "%");
 		int pagingCnt = BoardDAO.selPagingCnt(param); //
 				
@@ -45,6 +48,7 @@ public class BoardListSer extends HttpServlet {
 		if(page > pagingCnt) {  
 			page = pagingCnt; //마지막 페이지 값으로 변경
 		}
+		request.setAttribute("searchType", searchType);
 		request.setAttribute("page", page); 
 		System.out.println("page : " + page);
 		
