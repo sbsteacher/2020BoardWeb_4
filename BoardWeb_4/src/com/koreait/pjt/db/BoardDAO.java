@@ -51,20 +51,38 @@ public class BoardDAO {
 		*/
 		String sql = " SELECT A.* FROM ( "
 				+ " SELECT ROWNUM as RNUM, A.* FROM ( "
-				+ " SELECT A.i_board, A.title, A.hits, A.i_user, A.r_dt, B.nm, B.profile_img "
-				+ " FROM t_board4 A INNER JOIN t_user B ON A.i_user = B.i_user "
-				+ " WHERE A.title LIKE ? "
-				+ " ORDER BY i_board DESC "
-				+ " ) A WHERE ROWNUM <= ? "
+				+ " 		SELECT A.i_board, A.title, A.hits, A.i_user, A.r_dt, B.nm, B.profile_img "
+				+ "         , nvl(C.cnt, 0) as like_cnt "
+				+ "			, nvl(D.cnt, 0) as cmt_cnt "
+				+ "			, DECODE(E.i_board, null, 0, 1) as yn_like "
+				+ " 		FROM t_board4 A "
+				+ " 		INNER JOIN t_user B "
+				+ " 		ON A.i_user = B.i_user"
+				+ "			LEFT JOIN ( "  
+				+ "    			SELECT i_board, count(i_board) as cnt FROM t_board4_like GROUP BY i_board " 
+				+ "			) C "  
+				+ "			ON A.i_board = C.i_board "
+				+ "			LEFT JOIN ( "
+				+ "				SELECT i_board, count(i_board) as cnt FROM t_board4_cmt GROUP BY i_board "
+				+ "			) D "
+				+ "			ON A.i_board = D.i_board "
+				+ "			LEFT JOIN ( "
+				+ "				 SELECT i_board FROM t_board4_like WHERE i_user = ? "
+				+ "			) E "
+				+ "			ON A.i_board = E.i_board "
+				+ " 		WHERE A.title LIKE ? "
+				+ " 		ORDER BY i_board DESC "
+				+ " 	) A WHERE ROWNUM <= ? "
 				+ " ) A WHERE A.RNUM > ? ";
 		
 		int result = JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
 
 			@Override
 			public void prepared(PreparedStatement ps) throws SQLException {
-				ps.setNString(1, param.getSearchText());
-				ps.setInt(2, param.geteIdx());
-				ps.setInt(3, param.getsIdx());
+				ps.setInt(1, param.getI_user()); //로그인한 사람의 i_user
+				ps.setNString(2, param.getSearchText());
+				ps.setInt(3, param.geteIdx());
+				ps.setInt(4, param.getsIdx());
 			}
 
 			@Override
@@ -77,6 +95,9 @@ public class BoardDAO {
 					String r_dt = rs.getNString("r_dt");
 					String nm = rs.getNString("nm");
 					String profile_img = rs.getNString("profile_img");
+					int like_cnt = rs.getInt("like_cnt");
+					int cmt_cnt = rs.getInt("cmt_cnt");
+					int yn_like = rs.getInt("yn_like");
 					
 					BoardDomain vo = new BoardDomain();
 					vo.setI_board(i_board);
@@ -86,6 +107,9 @@ public class BoardDAO {
 					vo.setR_dt(r_dt);
 					vo.setNm(nm);
 					vo.setProfile_img(profile_img);
+					vo.setLike_cnt(like_cnt);
+					vo.setCmt_cnt(cmt_cnt);
+					vo.setYn_like(yn_like);
 					
 					list.add(vo);
 				}

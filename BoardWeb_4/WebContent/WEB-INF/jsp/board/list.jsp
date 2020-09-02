@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>리스트</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
 	* {
 		font-family: 'Noto Sans KR', sans-serif;
@@ -128,6 +129,8 @@
 				<th>No</th>
 				<th>제목</th>
 				<th>조회수</th>
+				<th>좋아요</th>				
+				<th> </th>
 				<th> </th>
 				<th>작성자</th>
 				<th>작성일</th>
@@ -135,8 +138,17 @@
 			<c:forEach items="${list}" var="item">
 				<tr class="itemRow" onclick="moveToDetail(${item.i_board})">
 					<td>${item.i_board}</td>
-					<td>${item.title}</td>
+					<td>${item.title} (${item.cmt_cnt})</td>
 					<td>${item.hits}</td>
+					<td>${item.like_cnt}</td>
+					<td>
+						<c:if test="${item.yn_like == 0 }">
+							<span class="material-icons">favorite_border</span>                	
+	                	</c:if>
+	                	<c:if test="${item.yn_like == 1}">
+	                		<span class="material-icons" style="color: red;">favorite</span>
+	                	</c:if>
+					</td>
 					<td>
 						<div class="containerPImg">
 							<c:choose>

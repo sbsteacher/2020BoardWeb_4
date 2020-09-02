@@ -7,19 +7,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.koreait.pjt.MyUtils;
 import com.koreait.pjt.ViewResolver;
 import com.koreait.pjt.db.BoardDAO;
 import com.koreait.pjt.vo.BoardDomain;
+import com.koreait.pjt.vo.UserVO;
 
 @WebServlet("/board/list")
 public class BoardListSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(MyUtils.isLogout(request)) {
+		
+		UserVO loginUser = MyUtils.getLoginUser(request);
+		if(loginUser == null) {
 			response.sendRedirect("/login");
 			return;
 		}
@@ -34,6 +36,7 @@ public class BoardListSer extends HttpServlet {
 		recordCnt = (recordCnt == 0 ? 10 : recordCnt);
 		
 		BoardDomain param = new BoardDomain();
+		param.setI_user(loginUser.getI_user());
 		param.setRecord_cnt(recordCnt);
 		param.setSearchText("%" + searchText + "%");
 		int pagingCnt = BoardDAO.selPagingCnt(param); //
