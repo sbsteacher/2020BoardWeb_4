@@ -24,7 +24,30 @@
 		</div>
 	</c:if>
 	<c:if test="${isAuth == true}"> <!-- 비밀번호 변경 -->
-		<div>비밀번호 변경</div>
+		<form id="changeFrm" action="/changePw" method="post" onsubmit="return chkChangePw()">
+			<input type="hidden" name="type" value="2">
+			<div>
+				<label><input type="password" name="pw" placeholder="변경 비밀번호"></label>
+			</div>
+			<div>
+				<label><input type="password" name="repw" placeholder="변경 비밀번호 확인"></label>
+			</div>
+			<div>
+				<input type="submit" value="확인">
+			</div>
+		</form>
 	</c:if>
+	<script>
+		function chkChangePw() {
+			if(changeFrm.pw.value.length == 0) {
+				alert('비밀번호를 작성해 주세요')
+				return false
+				
+			} else if(changeFrm.pw.value != changeFrm.repw.value) {
+				alert('비밀번호를 확인해 주세요')
+				return false
+			}
+		}
+	</script>
 </body>
 </html>

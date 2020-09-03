@@ -35,5 +35,13 @@
 		<div>이메일 : ${data.email }</div>
 		<div>가입일시 : ${data.r_dt }</div>
 	</div>
+	<script>
+		var proc = '${param.proc}'
+		switch(proc) {
+		case '1':
+			alert('비밀번호를 변경하였습니다.')
+			break
+		}
+	</script>
 </body>
 </html>

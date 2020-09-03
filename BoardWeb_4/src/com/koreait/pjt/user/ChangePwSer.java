@@ -25,10 +25,10 @@ public class ChangePwSer extends HttpServlet {
 		String pw = request.getParameter("pw");
 		String encryptPw = MyUtils.encryptString(pw);		
 		UserVO loginUser = MyUtils.getLoginUser(request);
+		UserVO param = new UserVO();
 		
 		switch(type) {
-		case "1"://현재 비밀번호 확인
-			UserVO param = new UserVO();
+		case "1"://현재 비밀번호 확인			
 			param.setUser_id(loginUser.getUser_id());
 			param.setUser_pw(encryptPw);
 			
@@ -42,8 +42,13 @@ public class ChangePwSer extends HttpServlet {
 			
 			doGet(request, response);
 			break;
+		case "2":			
+			param.setI_user(loginUser.getI_user());
+			param.setUser_pw(encryptPw);			
+			UserDAO.updUser(param);			
+			response.sendRedirect("/profile?proc=1");			
+			break;
 		}
-		
 		
 	}
 
