@@ -8,6 +8,7 @@
 <title>비밀번호 변경</title>
 </head>
 <body>
+	<div><a href="/profile">돌아가기</a></div>
 	<div>${msg}</div>
 	<c:if test="${isAuth == false || isAuth == null}"> <!-- 현재 비밀번호 확인 -->
 		<div>
