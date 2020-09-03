@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <title>상세페이지</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
     <style>
         * {
             font-family: 'Noto Sans KR', sans-serif;
@@ -132,7 +131,7 @@
 			height: 200px;
 			overflow-y: auto;
 			background-color: white;
-			
+			transition-duration : 500ms;
 		}		
 		#id_like { 
 			position:relative;
@@ -141,13 +140,7 @@
 		
 		#id_like:hover #likeListContainer {
 			opacity: 1;
-			transition-duration : 500ms;
-		}
-		
-		#id_like:not(:hover) #likeListContainer {
-			opacity: 0;
-			transition-duration : 500ms;
-		}
+		}		
     </style>
 </head>
 <body class="preload">
@@ -189,7 +182,7 @@
             	<tr>
             		<td colspan="7">
             			<span id="id_like" class="pointerCursor">좋아요 ${data.like_cnt}개
-	            			<div id="likeListContainer" class="">
+	            			<div id="likeListContainer">
 		   	 				</div>
             			</span>
             		</td>
