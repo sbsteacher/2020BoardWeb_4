@@ -10,6 +10,9 @@
 	<h1>프로필</h1>
 	<div>
 		<div>
+			<a href="/changePw"><button>비밀번호 변경</button></a>
+		</div>
+		<div>
 			<c:choose>
 				<c:when test="${data.profile_img != null}">
 					<img src="/img/user/${loginUser.i_user}/${data.profile_img}">

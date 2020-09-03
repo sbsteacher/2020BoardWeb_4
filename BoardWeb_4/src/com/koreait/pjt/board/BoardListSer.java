@@ -71,19 +71,7 @@ public class BoardListSer extends HttpServlet {
 				item.setTitle(title);
 			}
 		}
-		
 		request.setAttribute("list", list);
-				
 		ViewResolver.forward("board/list", request, response);
 	}
 }
-
-
-
-
-
-
-
-
-
- 
