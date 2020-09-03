@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>상세페이지</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
     <style>
         * {
             font-family: 'Noto Sans KR', sans-serif;
@@ -98,7 +99,7 @@
         #delFrm {
             display: inline-block;
         }
-        .pointerCursor { 	cursor: pointer; }
+        .pointerCursor { cursor: pointer; }
         .marginTop30 { margin-top: 30px; }
         #cmt { 	width: 580px; }
         
@@ -120,9 +121,36 @@
 			color: red;
 			font-weight: bold;
 		}
+		
+		#likeListContainer {
+			opacity: 0;
+			border: 1px solid #bdc3c7;
+			position: absolute;
+			left: 0px;
+			top: 30px;
+			width: 100px;
+			height: 200px;
+			overflow-y: auto;
+			background-color: white;
+			
+		}		
+		#id_like { 
+			position:relative;
+			font-size: 1em;
+		 }		
+		
+		#id_like:hover #likeListContainer {
+			opacity: 1;
+			transition-duration : 500ms;
+		}
+		
+		#id_like:not(:hover) #likeListContainer {
+			opacity: 0;
+			transition-duration : 500ms;
+		}
     </style>
 </head>
-<body>
+<body class="preload">
     <div class="container">
         <table>
             <tr id="title">
@@ -157,6 +185,16 @@
                 	</c:if>
                 </td>
             </tr>
+            <c:if test="${data.like_cnt > 0}">
+            	<tr>
+            		<td colspan="7">
+            			<span id="id_like" class="pointerCursor">좋아요 ${data.like_cnt}개
+	            			<div id="likeListContainer" class="">
+		   	 				</div>
+            			</span>
+            		</td>
+            	</tr>
+            </c:if>
         </table>
         <div class="ctnt" id="elCtnt">
             ${data.ctnt}
@@ -224,7 +262,11 @@
         	</table>
         </div>
     </div>
+    
+    
+    
     <script>
+    
     	function clkCmtCancel() {
     		cmtFrm.i_cmt.value = 0
     		cmtFrm.cmt.value = ''  //홑따옴표

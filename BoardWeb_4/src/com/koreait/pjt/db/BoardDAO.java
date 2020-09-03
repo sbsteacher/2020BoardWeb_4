@@ -144,13 +144,20 @@ public class BoardDAO {
 		
 		String sql = " SELECT B.profile_img, B.nm, A.i_user "
 				+ " , A.title, A.ctnt, A.hits, TO_CHAR(A.r_dt, 'YYYY/MM/DD HH24:MI') as r_dt"
-				+ " , DECODE(C.i_user, null, 0, 1) as yn_like "
+				+ " , DECODE(C.i_user, null, 0, 1) as yn_like"
+				+ " , nvl(D.cnt, 0) as like_cnt "
 				+ " FROM t_board4 A "
 				+ " INNER JOIN t_user B "
 				+ " ON A.i_user = B.i_user "
 				+ " LEFT JOIN t_board4_like C "
 				+ " ON A.i_board = C.i_board "
 				+ " AND C.i_user = ? "
+				+ " LEFT JOIN ("
+				+ " 	SELECT i_board, count(i_board) as cnt FROM t_board4_like "
+				+ "		WHERE i_board = ? "
+				+ "		GROUP BY i_board "
+				+ " ) D"
+				+ " ON A.i_board = D.i_board "
 				+ " WHERE A.i_board = ? ";
 		
 		int resultInt = JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
@@ -159,6 +166,7 @@ public class BoardDAO {
 			public void prepared(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, param.getI_user());
 				ps.setInt(2, param.getI_board());
+				ps.setInt(3, param.getI_board());
 			}
 
 			@Override
@@ -172,6 +180,7 @@ public class BoardDAO {
 					result.setHits(rs.getInt("hits"));
 					result.setR_dt(rs.getNString("r_dt"));
 					result.setYn_like(rs.getInt("yn_like"));
+					result.setLike_cnt(rs.getInt("like_cnt"));
 				}
 				return 1;
 			}
