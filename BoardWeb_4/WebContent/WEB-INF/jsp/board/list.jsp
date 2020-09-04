@@ -102,21 +102,19 @@
 		font-weight: bold;
 	}
 	
-	#likeListContainer {			
+	#likeListContainer {	
+		display: none;		
 		padding: 10px;		
 		border: 1px solid #bdc3c7;
 		position: absolute;
 		left: 0px;
 		top: 30px;
 		width: 130px;
-		height: 300px;
+		height: 200px;
 		overflow-y: auto;
 		background-color: white !important;
-		transition-duration : 500ms;
-	}		
-	
-	
- 		
+	}	
+		
 	.profile {
 		background-color: white !important;
 		display: inline-block;	
@@ -166,7 +164,7 @@
 				</select>
 			</form>
 		</div>
-		<table>
+		<table id="tbl">
 			<tr>
 				<th>No</th>
 				<th>제목</th>
@@ -182,7 +180,7 @@
 					<td onclick="moveToDetail(${item.i_board})">${item.i_board}</td>
 					<td onclick="moveToDetail(${item.i_board})">${item.title} (${item.cmt_cnt})</td>
 					<td>${item.hits}</td>
-					<td><span onclick="getLikeList(${item.i_board}, ${item.like_cnt})">${item.like_cnt}</span></td>
+					<td><span onclick="getLikeList(${item.i_board}, ${item.like_cnt}, this)">${item.like_cnt}</span></td>
 					<td>
 						<c:if test="${item.yn_like == 0 }">
 							<span class="material-icons">favorite_border</span>                	
@@ -245,10 +243,30 @@
 	
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script>
-		function getLikeList(i_board, cnt) {
+		
+		let beforeI_board = 0
+		function getLikeList(i_board, cnt, span) {
+			console.log("i_board : " + i_board)
+			if(cnt == 0) { return }
+			
+			if(beforeI_board == i_board && likeListContainer.style.opacity == 1) {
+				likeListContainer.style.display = 'none'
+				return
+			} else if(beforeI_board != i_board) {
+				beforeI_board = i_board
+				likeListContainer.style.display = 'unset'
+			}			
+			
+			
+			const locationX = window.scrollX + span.getBoundingClientRect().left
+			const locationY = window.scrollY + span.getBoundingClientRect().top + 30
+			
+			likeListContainer.style.left = `\${locationX}px`
+			likeListContainer.style.top = `\${locationY}px`
+			
 			likeListContainer.style.opacity = 1
 			likeListContainer.innerHTML = ""
-			if(cnt == 0) { return }
+			
 			
 			axios.get('/board/like', {
 				params: {
