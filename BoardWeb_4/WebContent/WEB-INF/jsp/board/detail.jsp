@@ -14,11 +14,7 @@
             background-color: #faf9f7;
         }
 
-        *:focus {
-            outline: none;
-        }
-
-
+        *:focus { outline: none; }
         .container {
             width: 700px;
             margin: 30px auto;
@@ -29,15 +25,8 @@
             border-collapse: collapse;
         }
 
-        th,
-        td {
-            /* border: 1px solid black; */
-            padding: 8px;
-        }
-
-        #title {
-            border-bottom: 1px solid #58585a;
-        }
+        th, td { padding: 8px; }
+        #title { border-bottom: 1px solid #58585a; }
 
         /* .boardInfo {
             border-bottom: 1px solid #58585a;
@@ -121,16 +110,17 @@
 			font-weight: bold;
 		}
 		
-		#likeListContainer {
+		#likeListContainer {			
+			padding: 10px;			
 			opacity: 0;
 			border: 1px solid #bdc3c7;
 			position: absolute;
 			left: 0px;
 			top: 30px;
-			width: 100px;
-			height: 200px;
+			width: 130px;
+			height: 0;
 			overflow-y: auto;
-			background-color: white;
+			background-color: white !important;
 			transition-duration : 500ms;
 		}		
 		#id_like { 
@@ -139,8 +129,30 @@
 		 }		
 		
 		#id_like:hover #likeListContainer {
+			height: 130px;						
 			opacity: 1;
+		}
+		
+		.profile {
+			background-color: white !important;
+			display: inline-block;	
+			width: 25px;
+			height: 25px;
+		    border-radius: 50%;
+		    overflow: hidden;
 		}		
+		
+		.likeItemContainer {
+			display: flex;
+		}
+		
+		.likeItemContainer .nm {
+			background-color: white !important;
+			margin-left: 7px;
+			font-size: 0.7em;
+			display: flex;
+			align-items: center;
+		}
     </style>
 </head>
 <body class="preload">
@@ -183,6 +195,23 @@
             		<td colspan="7">
             			<span id="id_like" class="pointerCursor">좋아요 ${data.like_cnt}개
 	            			<div id="likeListContainer">
+	            				<c:forEach items="${likeList}" var="item">
+	            					<div class="likeItemContainer">
+	            						<div class="profileContainer">
+	            							<div class="profile">
+		            							<c:choose>
+		            								<c:when test="${item.profile_img == null}">
+		            									<img class="pImg" src="/img/default_profile.jpg">
+		            								</c:when>
+		            								<c:otherwise>
+		            									<img class="pImg" src="/img/user/${item.i_user}/${item.profile_img}">
+		            								</c:otherwise>
+		            							</c:choose>
+	            							</div>
+	            						</div>
+	            						<div class="nm">${item.nm}</div>
+	            					</div>
+	            				</c:forEach>
 		   	 				</div>
             			</span>
             		</td>

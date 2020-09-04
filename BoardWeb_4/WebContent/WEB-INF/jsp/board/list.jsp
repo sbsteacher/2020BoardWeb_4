@@ -141,11 +141,11 @@
 				<th>작성일</th>
 			</tr>
 			<c:forEach items="${list}" var="item">
-				<tr class="itemRow" onclick="moveToDetail(${item.i_board})">
-					<td>${item.i_board}</td>
-					<td>${item.title} (${item.cmt_cnt})</td>
+				<tr class="itemRow">
+					<td onclick="moveToDetail(${item.i_board})">${item.i_board}</td>
+					<td onclick="moveToDetail(${item.i_board})">${item.title} (${item.cmt_cnt})</td>
 					<td>${item.hits}</td>
-					<td>${item.like_cnt}</td>
+					<td><span onclick="getLikeList(${item.i_board}, ${item.like_cnt})">${item.like_cnt}</span></td>
 					<td>
 						<c:if test="${item.yn_like == 0 }">
 							<span class="material-icons">favorite_border</span>                	
@@ -202,7 +202,16 @@
 			<a href="regmod"><button id="write">글작성</button></a>
 		</div>
 	</div>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script>
+		function getLikeList(i_board, cnt) {			
+			if(cnt == 0) { return }
+			
+			axios.get('/board/like').then(function(res) {
+				console.log(res)
+			})
+		}
+	
 		function changeRecordCnt() {
 			selFrm.submit()
 		}

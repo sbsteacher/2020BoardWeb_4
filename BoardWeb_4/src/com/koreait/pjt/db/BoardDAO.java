@@ -227,6 +227,35 @@ public class BoardDAO {
 		});
 	}
 	
+	public static List<BoardDomain> selBoardLikeList(final int i_board) {
+		List<BoardDomain> list = new ArrayList();		
+		String sql = " SELECT B.i_user, B.nm, B.profile_img"
+				+ " FROM t_board4_like A"
+				+ " INNER JOIN t_user B"
+				+ " ON A.i_user = B.i_user"
+				+ " WHERE A.i_board = ?"
+				+ " ORDER BY A.R_DT ASC "; 		
+		JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
+			@Override
+			public void prepared(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, i_board);
+			}
+			@Override
+			public int executeQuery(ResultSet rs) throws SQLException {
+				while(rs.next()) {
+					BoardDomain vo = new BoardDomain();
+					vo.setI_user(rs.getInt("i_user"));
+					vo.setNm(rs.getNString("nm"));
+					vo.setProfile_img(rs.getNString("profile_img"));					
+					list.add(vo);
+				}
+				return 1;
+			}
+		});		
+		return list;
+	}
+	
+	
 	public static int updBoard(final BoardVO param) {
 		String sql = " UPDATE t_board4 "
 				+ " SET m_dt = sysdate "
