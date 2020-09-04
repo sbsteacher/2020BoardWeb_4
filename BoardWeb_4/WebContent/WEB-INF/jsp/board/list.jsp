@@ -207,7 +207,11 @@
 		function getLikeList(i_board, cnt) {			
 			if(cnt == 0) { return }
 			
-			axios.get('/board/like').then(function(res) {
+			axios.get('/board/like', {
+				params: {
+					i_board
+				}
+			}).then(function(res) {
 				console.log(res)
 			})
 		}
