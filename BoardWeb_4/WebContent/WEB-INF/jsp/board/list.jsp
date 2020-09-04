@@ -164,7 +164,7 @@
 				</select>
 			</form>
 		</div>
-		<table id="tbl">
+		<table>
 			<tr>
 				<th>No</th>
 				<th>제목</th>
@@ -244,30 +244,26 @@
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script>
 		
-		let beforeI_board = 0
+		var beforeI_board = 0
+		
 		function getLikeList(i_board, cnt, span) {
 			console.log("i_board : " + i_board)
 			if(cnt == 0) { return }
 			
-			if(beforeI_board == i_board && likeListContainer.style.opacity == 1) {
+			if(beforeI_board == i_board) {
 				likeListContainer.style.display = 'none'
 				return
-			} else if(beforeI_board != i_board) {
+			} else {
 				beforeI_board = i_board
 				likeListContainer.style.display = 'unset'
-			}			
-			
-			
+			}					
 			const locationX = window.scrollX + span.getBoundingClientRect().left
 			const locationY = window.scrollY + span.getBoundingClientRect().top + 30
 			
 			likeListContainer.style.left = `\${locationX}px`
 			likeListContainer.style.top = `\${locationY}px`
 			
-			likeListContainer.style.opacity = 1
-			likeListContainer.innerHTML = ""
-			
-			
+			likeListContainer.innerHTML = ""			
 			axios.get('/board/like', {
 				params: {
 					i_board//key, 변수명이 같을때는 이렇게 사용, 원래는 i_board: i_board 이렇게 해야 함
